@@ -4,25 +4,76 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PharmaSoftware_WPF.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
         mc:Ignorable="d"
-        Title="StorageView" Height="450" Width="900" WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/resources/icons.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        TextElement.FontFamily="Nunito"
+        TextElement.FontSize="13"
+        Title="StorageView" Height="600" Width="1200" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
+
         <Grid>
-            <StackPanel>
-                
+            <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
+                <TextBlock Text="pharma." Foreground="#2E75B2"  
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="30" FontFamily="Arial Rounded MT"/>
+                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" />
+                <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+                <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
             </StackPanel>
+
         </Grid>
+        <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
+        </StackPanel>
+        <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0,50,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
+
+        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="52"/>
+                    <RowDefinition Height="548"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="0" Width="220">
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Margin="0" >
+                        <materialDesign:PopupBox.ToggleContent>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Account" Width="28" Height="28" Foreground="#2E75B2"/>
+                                    <TextBlock Text="Account" VerticalAlignment="Center" Margin="10,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:PopupBox.ToggleContent>
+                        <StackPanel Width="150" Background="White">
+                            <Button x:Name="BtnAccount" Content="Mijn Account"/>
+                            <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
+                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                HorizontalContentAlignment="Right"
+                                Margin="80,0,0,0"
+                                VerticalAlignment="Center"
+                                ToolTip="Close"
+                                Command="{Binding}"
+                                CommandParameter="CloseApp">
+                        <materialDesign:PackIcon Kind="WindowClose" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
+                    <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
+                    <TextBlock Text="{Binding}" Foreground="{Binding}"  FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
     </Grid>
 </Window>

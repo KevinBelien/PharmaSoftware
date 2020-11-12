@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PharmaSoftware_WPF.Views"
         mc:Ignorable="d"
-        xmlns:controls="clr-namespace:PharmaSoftware_WPF.Controls"    
+        xmlns:controls="clr-namespace:PharmaSoftware_WPF.customcontrols"    
         WindowStartupLocation="CenterScreen"
         Title="Login" Height="450" Width="900" ResizeMode="CanResize" WindowStyle="None">
     <Grid>
@@ -13,8 +13,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
-        <controls:SidebarControl Grid.Column="1">
-        </controls:SidebarControl>
+
     </Grid>
 
 </Window>

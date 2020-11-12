@@ -17,8 +17,8 @@ namespace PharmaSoftware_WPF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            LoginView mainView = new LoginView();
-            LoginViewModel mainViewModel = new LoginViewModel();
+            StorageView mainView = new StorageView();
+            StorageViewModel mainViewModel = new StorageViewModel();
             mainView.DataContext = mainViewModel;
             mainView.Show();
         }

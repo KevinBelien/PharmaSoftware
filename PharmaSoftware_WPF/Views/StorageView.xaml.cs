@@ -23,5 +23,6 @@ namespace PharmaSoftware_WPF.Views
         {
             InitializeComponent();
         }
+
     }
 }

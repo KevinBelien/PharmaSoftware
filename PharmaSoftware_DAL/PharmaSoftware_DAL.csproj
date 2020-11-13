@@ -55,12 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainModels\OrderIntern.cs" />
+    <Compile Include="DomainModels\Pharmacy.cs" />
+    <Compile Include="DomainModels\PharmacyProduct.cs" />
+    <Compile Include="DomainModels\Product.cs" />
+    <Compile Include="DomainModels\ProductCategory.cs" />
+    <Compile Include="DomainModels\ProductPreparation.cs" />
+    <Compile Include="DomainModels\ProductSubcategory.cs" />
+    <Compile Include="DomainModels\Supplier.cs" />
+    <Compile Include="Partials\Baseclass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="DomainModels\" />
-    <Folder Include="Partials\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

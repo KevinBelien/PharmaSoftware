@@ -39,13 +39,13 @@ namespace PharmaSoftware_DAL.DomainModels
         public string District { get; set; }
 
         //NavigationProperties
-        public ICollection<OrderIntern> OrdersIntern { get; set; }
+        public ICollection<PharmacyProduct> PharmacyProducts { get; set; }
 
         [InverseProperty("PharmacyBuy")]
-        public virtual ICollection<PharmacyProduct> PharmacyProductsBought { get; set; }
+        public virtual ICollection<OrderIntern> InternBought { get; set; }
 
         [InverseProperty("PharmacySell")]
-        public virtual ICollection<PharmacyProduct> PharmacyProductsSold { get; set; }
+        public virtual ICollection<OrderIntern> InternSold { get; set; }
 
     }
 }

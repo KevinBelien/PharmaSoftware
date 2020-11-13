@@ -26,20 +26,14 @@ namespace PharmaSoftware_DAL.DomainModels
 
         //NavigationProperties
 
-        [Index("IX_Product_Pharmacies", 1, IsUnique = true)]
         public int ProductID { get; set; }
         public Product Product { get; set; }
 
-        [Required]
-        [Index("IX_Product_Pharmacies", 2, IsUnique = true)]
+
         public int PharmacyBuyID { get; set; }
-        [ForeignKey("PharmacyBuyID")]
         public virtual Pharmacy PharmacyBuy { get; set; }
 
-        [Required]
-        [Index("IX_Product_Pharmacies", 3, IsUnique = true)]
         public int PharmacySellID { get; set; }
-        [ForeignKey("PharmacySellID")]
         public virtual Pharmacy PharmacySell { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace PharmaSoftware_DAL.DomainModels
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Code is een verplicht veld")]
-        [Index("ProductCode", IsUnique = true)]
         public string Code { get; set; }
 
         [Required(ErrorMessage = "Productnaam is een verplicht veld")]

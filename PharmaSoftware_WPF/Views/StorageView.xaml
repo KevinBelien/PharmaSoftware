@@ -23,7 +23,7 @@
                 <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" />
+                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowLoginView"/>
                 <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
                 <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
             </StackPanel>
@@ -32,9 +32,58 @@
         <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
-        </StackPanel>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0,50,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
+            <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
 
+            <Label Content="Voorraad" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Vertical" Background="#E1E8EE" Width="600">
+                
+                <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of merk"
+                    Margin="20"
+                    Padding="5,0,0,0"
+                    BorderBrush="#E1E8EE"
+                    Background="White"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"/>
+                <Grid Margin="20,0,20,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Categorie"
+                          Grid.Column="0"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="0,0,5,0"          
+                    />
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Subcategorie"
+                          Grid.Column="1"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="5,0,5,0"
+                          />
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Toedieningsvorm"
+                          Grid.Column="2"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="5,0,0,0"
+                          />
+                </Grid>
+            </StackPanel>
+            
+            <TextBlock HorizontalAlignment="Right" Margin="0,10,75,0">
+                        <Hyperlink TextDecorations="none">
+                            <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
+                        </Hyperlink>
+                    </TextBlock>
+        </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
             <Grid>
                 <Grid.RowDefinitions>
@@ -58,10 +107,10 @@
                         </StackPanel>
                     </materialDesign:PopupBox>
                     <Button Style="{StaticResource MaterialDesignIconButton}"
-                                HorizontalContentAlignment="Right"
+                                HorizontalAlignment="Right"
                                 Margin="80,0,0,0"
                                 VerticalAlignment="Center"
-                                ToolTip="Close"
+                                ToolTip="Sluiten"
                                 Command="{Binding}"
                                 CommandParameter="CloseApp">
                         <materialDesign:PackIcon Kind="WindowClose" />
@@ -72,6 +121,8 @@
                     <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
                     <TextBlock Text="{Binding}" Foreground="{Binding}"  FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
+
+
             </Grid>
         </StackPanel>
 

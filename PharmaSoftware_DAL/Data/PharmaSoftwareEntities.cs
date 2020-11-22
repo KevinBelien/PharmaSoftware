@@ -11,7 +11,7 @@ namespace PharmaSoftware_DAL.Data
 {
     public class PharmaSoftwareEntities : DbContext
     {
-        public PharmaSoftwareEntities(): base("PharmaSoftware")
+        public PharmaSoftwareEntities(): base("name=PharmaSoftwareConnectionString")
         {
 
         }

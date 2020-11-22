@@ -57,7 +57,7 @@
                                       Height="28" Width="28" Foreground="#2E75B2"
                                       VerticalAlignment="Center"/>
 
-                                <TextBlock  VerticalAlignment="Center" Style="{StaticResource MenuTextStyle}" Text="{Binding Text, ElementName=this,  FallbackValue=''}" Grid.Column="1"/>
+                                <TextBlock VerticalAlignment="Center" Style="{StaticResource MenuTextStyle}" Text="{Binding Text, ElementName=this,  FallbackValue=''}" Grid.Column="1"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -71,5 +71,6 @@
         </Style>
     </UserControl.Resources>
     <RadioButton Style="{StaticResource MenuButtonStyle}" GroupName="{Binding GroupName, ElementName=this}" 
-                 Command="{Binding}"/>
+                 Command="{Binding SomeCommand, ElementName=this}"
+                 CommandParameter="{Binding SomeCommandParameter, ElementName=this}"></RadioButton>
 </UserControl>

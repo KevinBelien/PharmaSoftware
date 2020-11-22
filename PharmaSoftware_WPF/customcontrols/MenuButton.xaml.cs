@@ -80,5 +80,30 @@ namespace PharmaSoftware_WPF.customcontrols
         // Using a DependencyProperty as the backing store for Padding.  This enables animation, styling, binding, etc...
         public new static readonly DependencyProperty PaddingProperty =
             DependencyProperty.Register("Padding", typeof(Thickness), typeof(MenuButton));
+
+        public ICommand SomeCommand
+        {
+            get { return (ICommand)GetValue(SomeCommandProperty); }
+            set { SetValue(SomeCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SomeCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SomeCommandProperty =
+            DependencyProperty.Register("SomeCommand", typeof(ICommand), typeof(MenuButton));
+
+
+
+        public string SomeCommandParameter
+        {
+            get { return (string)GetValue(SomeCommandParameterProperty); }
+            set { SetValue(SomeCommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SomeCommandParameter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SomeCommandParameterProperty =
+            DependencyProperty.Register("SomeCommandParameter", typeof(string), typeof(MenuButton));
+
+
+
     }
 }

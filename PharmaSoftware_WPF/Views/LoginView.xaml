@@ -56,7 +56,17 @@
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE" Grid.RowSpan="2"></StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE" Grid.RowSpan="2">
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                                HorizontalAlignment="Right"
+                                Margin="80,0,0,0"
+                                VerticalAlignment="Center"
+                                ToolTip="Sluiten"
+                                Command="{Binding}"
+                                CommandParameter="CloseApp">
+                <materialDesign:PackIcon Kind="WindowClose" />
+            </Button>
+        </StackPanel>
     </Grid>
 
 </Window>

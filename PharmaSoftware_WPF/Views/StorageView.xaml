@@ -77,12 +77,49 @@
                           />
                 </Grid>
             </StackPanel>
-            
+
             <TextBlock HorizontalAlignment="Right" Margin="0,10,75,0">
-                        <Hyperlink TextDecorations="none">
-                            <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
-                        </Hyperlink>
-                    </TextBlock>
+                <Hyperlink TextDecorations="none">
+                    <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
+                </Hyperlink>
+            </TextBlock>
+
+            <DataGrid x:Name="dgdSupply" ItemsSource="{Binding Pharmacy}" AutoGenerateColumns="false"
+                      IsReadOnly="True" SelectedItem="{Binding SelectedProduct}" Margin="75,10,75,10" CanUserSortColumns="True"  CanUserAddRows="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                       materialDesign:DataGridAssist.ColumnHeaderPadding="8" Background="White">
+                <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                                <DataGridCheckBoxColumn.Header>
+                                    <!--padding to allow hit test to pass thru for sorting -->
+                                    <Border Background="Transparent" Padding="12 0 12 0" HorizontalAlignment="Center">
+                                        <CheckBox HorizontalAlignment="Center"
+                                                  DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
+                                                  IsChecked="{Binding IsAllItems3Selected}" />
+                                    </Border>
+                                </DataGridCheckBoxColumn.Header>
+                            </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding}" Header="Code" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Naam" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Categorie" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Prijs" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Stock" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Expander Collapsed="exp_Collapsed" Expanded="exp_Expanded"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="Hello" Margin="10" />
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
             <Grid>

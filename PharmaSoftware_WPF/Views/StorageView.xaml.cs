@@ -24,5 +24,15 @@ namespace PharmaSoftware_WPF.Views
             InitializeComponent();
         }
 
+        private void exp_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+        }
+
+        private void exp_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,7 +13,7 @@ namespace PharmaSoftware_DAL.Partials
 {
     public abstract class Baseclass : IDataErrorInfo, INotifyPropertyChanged
     {
-        [NotMapped]
+        /*[NotMapped]
         public virtual string this[string columnName]
         {
             get
@@ -21,14 +22,15 @@ namespace PharmaSoftware_DAL.Partials
 
                 var property = GetType().GetProperty(columnName);
                 if (property != null)
+
                 {
                     var validationContext = new ValidationContext(this)
                     {
                         MemberName = columnName
                     };
 
-                    var isValid = Validator.TryValidateProperty(property.GetValue(this), validationContext, validationResults);
-                    if (isValid)
+                    var isVal = Validator.TryValidateProperty(property.GetValue(this), validationContext, validationResults);
+                    if (isVal)
                     {
                         return null;
                     }
@@ -37,16 +39,16 @@ namespace PharmaSoftware_DAL.Partials
                 }
                 return "";
             }
-        }
+        }*/
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsGeldig()
+        public bool IsValid()
         {
             return string.IsNullOrWhiteSpace(Error);
 
         }
-        [NotMapped]
+        /*[NotMapped]
         public string Error
         {
             get
@@ -64,6 +66,49 @@ namespace PharmaSoftware_DAL.Partials
 
                 }
                 return foutmeldingen;
+            }
+        }*/
+        [NotMapped]
+        public virtual string this[string columnName]
+        {
+            get
+            {
+                var validationResults = new List<ValidationResult>();
+
+                var property = GetType().GetProperty(columnName);
+                Contract.Assert(null != property);
+
+                var validationContext = new ValidationContext(this)
+                {
+                    MemberName = columnName
+                };
+
+                var isValid = Validator.TryValidateProperty(property.GetValue(this), validationContext, validationResults);
+                if (isValid)
+                {
+                    return null;
+                }
+
+                return validationResults.First().ErrorMessage;
+            }
+        }
+        [NotMapped]
+        public virtual string Error
+        {
+            get
+            {
+                var propertyInfos = GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var errorMsg = this[propertyInfo.Name];
+                    if (null != errorMsg)
+                    {
+                        return errorMsg;
+                    }
+                }
+
+                return null;
             }
         }
     }

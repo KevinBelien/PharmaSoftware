@@ -10,7 +10,7 @@
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
-        Title="Login" Height="600" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
+        Title="Login" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,7 +20,7 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Aanmelden" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,100,0,0" HorizontalAlignment="Center"/>
+        <Label Content="Aanmelden" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,80,0,0" HorizontalAlignment="Center"/>
         <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Vertical" Width="300" Margin="0,10,0,0">
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
                 <materialDesign:PackIcon DockPanel.Dock="Left" 

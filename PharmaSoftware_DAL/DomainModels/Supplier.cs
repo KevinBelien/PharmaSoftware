@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PharmaSoftware_DAL;
+using PharmaSoftware_DAL.Partials;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PharmaSoftware_DAL.DomainModels
+namespace PharmaSoftware_DAL
 {
     [Table("Supplier")]
-    public class Supplier
+    public  class Supplier: Baseclass
     {
         public int SupplierID { get; set; }
 

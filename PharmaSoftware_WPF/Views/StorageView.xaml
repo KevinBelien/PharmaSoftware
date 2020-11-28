@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
-        Title="StorageView" Height="600" Width="1200" WindowStartupLocation="CenterScreen" 
+        Title="StorageView" Height="700" Width="1200" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
         <Grid.ColumnDefinitions>

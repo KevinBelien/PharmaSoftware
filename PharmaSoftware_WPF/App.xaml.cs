@@ -1,4 +1,7 @@
-﻿using PharmaSoftware_WPF.ViewModels;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PharmaSoftware_DAL.Services.HashingServices;
+using PharmaSoftware_WPF.State.Authenticators;
+using PharmaSoftware_WPF.ViewModels;
 using PharmaSoftware_WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -17,8 +20,8 @@ namespace PharmaSoftware_WPF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            StorageView mainView = new StorageView();
-            StorageViewModel mainViewModel = new StorageViewModel();
+            RegisterView mainView = new RegisterView();
+            RegisterViewModel mainViewModel = new RegisterViewModel();
             mainView.DataContext = mainViewModel;
             mainView.Show();
         }

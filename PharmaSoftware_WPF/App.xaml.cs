@@ -20,8 +20,8 @@ namespace PharmaSoftware_WPF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            RegisterView mainView = new RegisterView();
-            RegisterViewModel mainViewModel = new RegisterViewModel();
+            LoginView mainView = new LoginView();
+            LoginViewModel mainViewModel = new LoginViewModel();
             mainView.DataContext = mainViewModel;
             mainView.Show();
         }

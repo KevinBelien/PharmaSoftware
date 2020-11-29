@@ -17,9 +17,9 @@ namespace PharmaSoftware_WPF.ViewModels
 {
     public class RegisterViewModel: BaseViewModel, IDisposable
     {
-        IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
+        private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
-        IAuthenticator _authenticator = new Authenticator();
+        private readonly Authenticator _authenticator = new Authenticator();
 
         private string username;
 

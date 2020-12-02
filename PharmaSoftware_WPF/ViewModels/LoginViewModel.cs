@@ -10,6 +10,9 @@ using PharmaSoftware_DAL.Data;
 using PharmaSoftware_DAL;
 using PharmaSoftware_DAL.Services.HashingServices;
 using PharmaSoftware_WPF.State.Authenticators;
+using Prism.Commands;
+using GalaSoft.MvvmLight.Command;
+using PharmaSoftware_WPF.State.ManageWIndows;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
@@ -17,7 +20,6 @@ namespace PharmaSoftware_WPF.ViewModels
     {
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
-        private readonly Authenticator _authenticator = new Authenticator();
 
         private string username;
         public string Username
@@ -49,21 +51,6 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public override string this[string columnName] => throw new NotImplementedException();
 
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            switch (parameter.ToString())
-            {
-                case "Login": Login(); break;
-                case "CloseApp": Application.Current.Shutdown(); break;
-                case "ShowRegisterView": ShowRegisterView(); break;
-            }
-        }
-
         private void Login()
         {
             string errors = ValidateInputFields(Password);
@@ -76,13 +63,11 @@ namespace PharmaSoftware_WPF.ViewModels
                 };
 
                 Pharmacy pharm = _uow.PharmacyRepo.Get(x => x.Username == checkPharm.Username).FirstOrDefault();
-                string testpass = passwordHasher.DecryptString(pharm.PasswordHash);
                 if (pharm != null)
                 {
                     if (passwordHasher.DecryptString(pharm.PasswordHash) == checkPharm.PasswordHash)
                     {
-                        _authenticator.CurrentUser = pharm;
-                        ShowStorageView(pharm.PharmacyID);
+                        Authenticator.CurrentUser = pharm;
                     }
                     else
                     {
@@ -106,6 +91,10 @@ namespace PharmaSoftware_WPF.ViewModels
 
         private string ValidateInputFields(string password)
         {
+            if (string.IsNullOrWhiteSpace(Username))
+            {
+                return "Gebruikersnaam is niet ingevuld!";
+            }
             if (string.IsNullOrWhiteSpace(password))
             {
                 return "Wachtwoord is niet ingevuld!";
@@ -113,7 +102,7 @@ namespace PharmaSoftware_WPF.ViewModels
             return "";
         }
 
-        private void ShowRegisterView()
+        private void ShowRegisterWindow()
         {
             RegisterView registerView = new RegisterView();
             RegisterViewModel registerViewModel = new RegisterViewModel();
@@ -121,7 +110,7 @@ namespace PharmaSoftware_WPF.ViewModels
             registerView.Show();
         }
 
-        private void ShowStorageView(int id)
+        private void ShowStorageWindow(int id)
         {
             StorageView storageView = new StorageView();
             StorageViewModel storageViewModel = new StorageViewModel(id);
@@ -134,5 +123,51 @@ namespace PharmaSoftware_WPF.ViewModels
         {
             _uow?.Dispose();
         }
+
+        #region Commands
+        public override bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter.ToString())
+            {
+                case "CloseApp": Application.Current.Shutdown(); break;
+            }
+        }
+        public RelayCommand<IClosable> ShowRegisterViewCommand { get; private set; }
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
+
+        public LoginViewModel()
+        {
+            this.ShowRegisterViewCommand = new RelayCommand<IClosable>(this.ShowRegisterView);
+            this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
+
+        }
+
+        private void ShowRegisterView(IClosable window)
+        {
+            if (window != null)
+            {
+                ShowRegisterWindow();
+                window.Close();
+            }
+        }
+
+        private void ShowStorageView(IClosable window)
+        {
+            Login();
+            if (window != null)
+                {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
+        x:Name="SupplyWindow"
         Title="StorageView" Height="700" Width="1200" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
@@ -18,17 +19,15 @@
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
             <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
                 <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowLoginView"/>
+                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowStorageView"/>
                 <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
                 <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
             </StackPanel>
 
-        </Grid>
         <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
@@ -79,7 +78,7 @@
             </StackPanel>
 
             <TextBlock HorizontalAlignment="Right" Margin="0,10,75,0">
-                <Hyperlink TextDecorations="none">
+                <Hyperlink TextDecorations="none" Command="{Binding ShowProductViewCommand}" CommandParameter="{Binding ElementName=SupplyWindow}">
                     <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
                 </Hyperlink>
             </TextBlock>
@@ -138,9 +137,9 @@
                             </Grid>
                         </materialDesign:PopupBox.ToggleContent>
                         <StackPanel Width="150" Background="White">
-                            <Button x:Name="BtnAccount" Content="Mijn Account"/>
+                            <Button x:Name="BtnAccount" Content="Mijn Account" Command="{Binding ShowProfileViewCommand}" CommandParameter="{Binding ElementName=SupplyWindow}"/>
                             <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
-                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red"/>
+                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red" Command="{Binding LogoutCommand}" CommandParameter="{Binding ElementName=SupplyWindow}"/>
                         </StackPanel>
                     </materialDesign:PopupBox>
                     <Button Style="{StaticResource MaterialDesignIconButton}"

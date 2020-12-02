@@ -12,6 +12,8 @@ using PharmaSoftware_WPF.State.Authenticators;
 using PharmaSoftware_WPF.Views;
 using System.Collections.ObjectModel;
 using PharmaSoftware_DAL.Services.HashingServices;
+using PharmaSoftware_WPF.State.ManageWIndows;
+using GalaSoft.MvvmLight.Command;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
@@ -19,7 +21,10 @@ namespace PharmaSoftware_WPF.ViewModels
     {
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
-        private readonly Authenticator _authenticator = new Authenticator();
+
+        public RelayCommand<IClosable> ShowLoginViewCommand { get; private set; }
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
+
 
         private string username;
 
@@ -171,6 +176,8 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public RegisterViewModel()
         {
+            this.ShowLoginViewCommand = new RelayCommand<IClosable>(this.ShowLoginView);
+            this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
         }
 
         private void AddPharmacy()
@@ -193,8 +200,7 @@ namespace PharmaSoftware_WPF.ViewModels
                         int ok = _uow.Save();
                         if (ok > 0)
                         {
-                            _authenticator.CurrentUser = pharmacy;
-                            ShowStorageView(_authenticator.CurrentUser.PharmacyID);
+                            Authenticator.CurrentUser = pharmacy;
 
                         }
                         else
@@ -221,22 +227,7 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public override string this[string columnName] => throw new NotImplementedException();
 
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            switch (parameter.ToString())
-            {
-                case "CloseApp": Application.Current.Shutdown(); break;
-                case "AddPharmacy": AddPharmacy(); break;
-                case "ShowLoginView": ShowLoginView(); break;
-            }
-        }
-
-        private void ShowStorageView(int id)
+        private void ShowStorageWindow(int id)
         {
             StorageView storageView = new StorageView();
             StorageViewModel storageViewModel = new StorageViewModel(id);
@@ -286,7 +277,7 @@ namespace PharmaSoftware_WPF.ViewModels
             return pharmacy;
         }
 
-        private void ShowLoginView()
+        private void ShowLoginWindow()
         {
             LoginView login = new LoginView();
             LoginViewModel loginViewModel = new LoginViewModel();
@@ -298,5 +289,42 @@ namespace PharmaSoftware_WPF.ViewModels
         {
             _uow?.Dispose();
         }
+
+        #region Commands
+        public override bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter.ToString())
+            {
+                case "CloseApp": Application.Current.Shutdown(); break;
+            }
+        }
+
+        private void ShowLoginView(IClosable window)
+        {
+            if (window != null)
+            {
+                ShowLoginWindow();
+                window.Close();
+            }
+        }
+
+        private void ShowStorageView(IClosable window)
+        {
+            AddPharmacy();
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+        #endregion
     }
 }

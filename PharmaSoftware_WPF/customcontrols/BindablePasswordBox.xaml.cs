@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PharmaSoftware_DAL.Services.HashingServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
@@ -21,7 +22,7 @@ namespace PharmaSoftware_WPF.customcontrols
     /// </summary>
     public partial class BindablePasswordBox : UserControl
     {
-
+        private readonly IHashingService service = new HashingService();
         public BindablePasswordBox()
         {
             InitializeComponent();
@@ -56,6 +57,10 @@ namespace PharmaSoftware_WPF.customcontrols
             DependencyProperty.Register("EncryptedPassword", typeof(SecureString), typeof(BindablePasswordBox),
                                 new PropertyMetadata(new SecureString()));*/
 
+        private string encryptString(string pass)
+        {
+            return service.EncryptString(pass);
+        }
 
         private static void PasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -84,7 +89,9 @@ namespace PharmaSoftware_WPF.customcontrols
             SetEncryptedPassword(pBox, pBox.SecurePassword);*/
 
             _isPasswordChanging = true;
-            Password = passwordBox.Password;
+            Password = encryptString(passwordBox.Password);
+            //Password = passwordBox.Password;
+
             _isPasswordChanging = false;
 
         }

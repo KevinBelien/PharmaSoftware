@@ -35,16 +35,16 @@ namespace PharmaSoftware_WPF.ViewModels
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
 
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id, 
-                p => p.PharmacyProducts)
+                p => p.PharmacyProducts.Select(pp => pp.Product))
                 .FirstOrDefault();
 
             Products = new ObservableCollection<Product>(_uow.ProductRepo.Get());
 
-            PharmacyProducts = GetAllProductsFromPharmacy();
+            //PharmacyProducts = GetAllProductsFromPharmacy();
 
         }
 
-        private ObservableCollection<Product> GetAllProductsFromPharmacy()
+        /*private ObservableCollection<Product> GetAllProductsFromPharmacy()
         {
             ObservableCollection<Product> productList = new ObservableCollection<Product>();
 
@@ -57,7 +57,7 @@ namespace PharmaSoftware_WPF.ViewModels
                     }
             }
             return productList;
-        }
+        }*/
 
         public override string this[string columnName] => throw new NotImplementedException();
 

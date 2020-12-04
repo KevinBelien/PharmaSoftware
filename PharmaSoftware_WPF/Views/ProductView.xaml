@@ -23,9 +23,9 @@
             <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" IsEnabled="False"/>
-            <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" IsEnabled="False"/>
-            <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0" IsEnabled="False"/>
+            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding }"/>
+            <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" />
+            <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
         </StackPanel>
 
         <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
@@ -77,13 +77,13 @@
 
                 <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                 <DockPanel Grid.Column="3" Grid.Row="3">
-                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,8,0,0" FontSize="16"/>
+                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
                     <TextBox Text="{Binding Product.Price}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
                 </DockPanel>
 
                 <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                 <DockPanel Grid.Column="3" Grid.Row="4">
-                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,8,0,0" FontSize="16"/>
+                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
                     <TextBox Text="{Binding Product.Cost}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
                 </DockPanel>
 

@@ -65,7 +65,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 Pharmacy pharm = _uow.PharmacyRepo.Get(x => x.Username == checkPharm.Username).FirstOrDefault();
                 if (pharm != null)
                 {
-                    if (passwordHasher.DecryptString(pharm.PasswordHash) == checkPharm.PasswordHash)
+                    if (passwordHasher.DecryptString(pharm.PasswordHash) == passwordHasher.DecryptString(checkPharm.PasswordHash))
                     {
                         Authenticator.CurrentUser = pharm;
                     }

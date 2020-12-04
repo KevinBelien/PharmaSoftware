@@ -97,7 +97,7 @@ namespace PharmaSoftware_DAL.Partials
         {
             get
             {
-                var propertyInfos = GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);
+                var propertyInfos = GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance);//.Where(x => x.CanWrite == true);
 
                 foreach (var propertyInfo in propertyInfos)
                 {

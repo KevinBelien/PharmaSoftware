@@ -25,22 +25,7 @@ namespace PharmaSoftware_WPF.ViewModels
         public RelayCommand<IClosable> ShowLoginViewCommand { get; private set; }
         public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
 
-
-        private string username;
-
-        public string Username
-        {
-            get
-            {
-                return username;
-            }
-            set
-            {
-                username = value;
-                NotifyPropertyChanged(nameof(Username));
-            }
-        }
-
+        public Pharmacy Pharmacy { get; set; }
 
         private string password;
         public string Password
@@ -85,80 +70,6 @@ namespace PharmaSoftware_WPF.ViewModels
             }
         }
 
-        private string city { get; set; }
-
-        public string City
-        {
-            get
-            {
-                return city;
-            }
-            set
-            {
-                city = value;
-                NotifyPropertyChanged(nameof(City));
-            }
-        }
-
-        private string district { get; set; }
-
-        public string District
-        {
-            get
-            {
-                return district;
-            }
-            set
-            {
-                district = value;
-                NotifyPropertyChanged(nameof(District));
-            }
-        }
-
-        private string street{ get; set; }
-
-        public string Street
-        {
-            get
-            {
-                return street;
-            }
-            set
-            {
-                street = value;
-                NotifyPropertyChanged(nameof(Street));
-            }
-        }
-
-        private string zip { get; set; }
-
-        public string ZIP
-        {
-            get
-            {
-                return zip;
-            }
-            set
-            {
-                zip = value;
-                NotifyPropertyChanged(nameof(ZIP));
-            }
-        }
-
-        private string houseNr { get; set; }
-
-        public string HouseNr
-        {
-            get
-            {
-                return houseNr;
-            }
-            set
-            {
-                houseNr= value;
-                NotifyPropertyChanged(nameof(HouseNr));
-            }
-        }
 
         /*private SecureString encryptedPassword { get; set; }
         public SecureString EncryptedPassword
@@ -176,6 +87,7 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public RegisterViewModel()
         {
+            this.Pharmacy = new Pharmacy();
             this.ShowLoginViewCommand = new RelayCommand<IClosable>(this.ShowLoginView);
             this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
         }
@@ -188,19 +100,19 @@ namespace PharmaSoftware_WPF.ViewModels
             errors += ValidateInputFields(ConvertPhone,CopyPassword, ref validPhoneNr);
             if (string.IsNullOrWhiteSpace(errors))
             {
-                string hashPass = passwordHasher.EncryptString(password);
+                Pharmacy.PhoneNr = validPhoneNr;
+                Pharmacy.PasswordHash = Password;
+                //string hashPass = passwordHasher.EncryptString(password);
 
-                Pharmacy pharmacy = FillPharmacy(Username, hashPass, validPhoneNr, ZIP, Street, City, District, HouseNr);
-
-                if (!GetAllPharmacies().Contains(pharmacy))
+                if (!GetAllPharmacies().Contains(Pharmacy))
                 {
-                    if (pharmacy.IsValid())
+                    if (Pharmacy.IsValid())
                     {
-                        _uow.PharmacyRepo.Add(pharmacy);
+                        _uow.PharmacyRepo.Add(Pharmacy);
                         int ok = _uow.Save();
                         if (ok > 0)
                         {
-                            Authenticator.CurrentUser = pharmacy;
+                            Authenticator.CurrentUser = Pharmacy;
 
                         }
                         else
@@ -210,7 +122,7 @@ namespace PharmaSoftware_WPF.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(pharmacy.Error);
+                        MessageBox.Show(Pharmacy.Error);
                     }
                 }
                 else
@@ -242,7 +154,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 return "Telefoonnummer moet een numerieke waarde hebben!";
             }
 
-            if (password != confirmPassword)
+            if (passwordHasher.DecryptString(password) != passwordHasher.DecryptString(confirmPassword))
             {
                 return "Wachtwoorden komen niet overeen!";
             }
@@ -258,23 +170,6 @@ namespace PharmaSoftware_WPF.ViewModels
         private ObservableCollection<Pharmacy> GetAllPharmacies()
         {
             return new ObservableCollection<Pharmacy>(_uow.PharmacyRepo.Get());
-        }
-
-        private Pharmacy FillPharmacy(string username, string password, int phoneNr, string zip, string street, string city, string district, string houseNr)
-        {
-            Pharmacy pharmacy = new Pharmacy()
-            {
-                Username = username,
-                PasswordHash = password,
-                PhoneNr = phoneNr,
-                ZIP = zip,
-                Street = street,
-                City = city,
-                District = district,
-                HouseNr = houseNr
-            };
-
-            return pharmacy;
         }
 
         private void ShowLoginWindow()

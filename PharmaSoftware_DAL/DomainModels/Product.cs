@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PharmaSoftware_DAL;
+using PharmaSoftware_DAL.Partials;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,11 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PharmaSoftware_DAL.DomainModels
+namespace PharmaSoftware_DAL
 {
     [Table("Product")]
-    public class Product
+    public partial class Product: Baseclass
     {
+        [Key]
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Code is een verplicht veld")]
@@ -35,18 +38,25 @@ namespace PharmaSoftware_DAL.DomainModels
         public decimal Cost { get; set; }
 
         [Required(ErrorMessage = "Merk is een verplicht veld")]
-        public int Brand { get; set; }
+        [MaxLength(150)]
+        public string Brand { get; set; }
 
         //Navigation properties
         public ICollection<PharmacyProduct> PharmacyProducts { get; set; }
-        public ICollection<Product> OrdersIntern { get; set; }
+        public ICollection<OrderIntern> OrdersIntern { get; set; }
 
+        [Required(ErrorMessage = "Selecteer een categorie")]
         public int ProductCategoryID { get; set; }
         public ProductCategory ProductCategory { get; set; }
 
-        public int ProductPreparationID { get; set; }
+        [Required(ErrorMessage = "Selecteer een subcategorie")]
+        public int ProductSubcategoryID { get; set; }
+        public ProductSubcategory ProductSubcategory { get; set; }
+
+        public int? ProductPreparationID { get; set; }
         public ProductPreparation ProductPreparation { get; set; }
 
+        [Required(ErrorMessage = "Selecteer een leverancier")]
         public int SupplierID { get; set; }
         public Supplier Supplier { get; set; }
     }

@@ -21,9 +21,9 @@
                         PharmacySellID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.OrderInternID)
+                .ForeignKey("dbo.Product", t => t.ProductID, cascadeDelete: true)
                 .ForeignKey("dbo.Pharmacy", t => t.PharmacyBuyID)
                 .ForeignKey("dbo.Pharmacy", t => t.PharmacySellID)
-                .ForeignKey("dbo.Product", t => t.ProductID, cascadeDelete: true)
                 .Index(t => t.ProductID)
                 .Index(t => t.PharmacyBuyID)
                 .Index(t => t.PharmacySellID);
@@ -34,7 +34,7 @@
                     {
                         PharmacyID = c.Int(nullable: false, identity: true),
                         Username = c.String(nullable: false),
-                        Password = c.String(nullable: false),
+                        PasswordHash = c.String(nullable: false),
                         City = c.String(nullable: false),
                         ZIP = c.String(nullable: false, maxLength: 10),
                         Street = c.String(nullable: false),
@@ -72,21 +72,21 @@
                         Content = c.String(nullable: false, maxLength: 20),
                         Price = c.Decimal(nullable: false, storeType: "money"),
                         Cost = c.Decimal(nullable: false, storeType: "money"),
-                        Brand = c.Int(nullable: false),
+                        Brand = c.String(nullable: false, maxLength: 150),
                         ProductCategoryID = c.Int(nullable: false),
-                        ProductPreparationID = c.Int(nullable: false),
+                        ProductSubcategoryID = c.Int(nullable: false),
+                        ProductPreparationID = c.Int(),
                         SupplierID = c.Int(nullable: false),
-                        Product_ProductID = c.Int(),
                     })
                 .PrimaryKey(t => t.ProductID)
-                .ForeignKey("dbo.Product", t => t.Product_ProductID)
-                .ForeignKey("dbo.ProductCategory", t => t.ProductCategoryID, cascadeDelete: true)
-                .ForeignKey("dbo.ProductPreparation", t => t.ProductPreparationID, cascadeDelete: true)
+                .ForeignKey("dbo.ProductCategory", t => t.ProductCategoryID)
+                .ForeignKey("dbo.ProductPreparation", t => t.ProductPreparationID)
+                .ForeignKey("dbo.ProductSubcategories", t => t.ProductSubcategoryID)
                 .ForeignKey("dbo.Supplier", t => t.SupplierID, cascadeDelete: true)
                 .Index(t => t.ProductCategoryID)
+                .Index(t => t.ProductSubcategoryID)
                 .Index(t => t.ProductPreparationID)
-                .Index(t => t.SupplierID)
-                .Index(t => t.Product_ProductID);
+                .Index(t => t.SupplierID);
             
             CreateTable(
                 "dbo.ProductCategory",
@@ -139,20 +139,20 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.OrderIntern", "ProductID", "dbo.Product");
             DropForeignKey("dbo.OrderIntern", "PharmacySellID", "dbo.Pharmacy");
             DropForeignKey("dbo.OrderIntern", "PharmacyBuyID", "dbo.Pharmacy");
             DropForeignKey("dbo.Product", "SupplierID", "dbo.Supplier");
+            DropForeignKey("dbo.Product", "ProductSubcategoryID", "dbo.ProductSubcategories");
             DropForeignKey("dbo.Product", "ProductPreparationID", "dbo.ProductPreparation");
-            DropForeignKey("dbo.ProductSubcategories", "ProductCategoryID", "dbo.ProductCategory");
             DropForeignKey("dbo.Product", "ProductCategoryID", "dbo.ProductCategory");
+            DropForeignKey("dbo.ProductSubcategories", "ProductCategoryID", "dbo.ProductCategory");
             DropForeignKey("dbo.PharmacyProduct", "ProductID", "dbo.Product");
-            DropForeignKey("dbo.Product", "Product_ProductID", "dbo.Product");
+            DropForeignKey("dbo.OrderIntern", "ProductID", "dbo.Product");
             DropForeignKey("dbo.PharmacyProduct", "PharmacyID", "dbo.Pharmacy");
             DropIndex("dbo.ProductSubcategories", new[] { "ProductCategoryID" });
-            DropIndex("dbo.Product", new[] { "Product_ProductID" });
             DropIndex("dbo.Product", new[] { "SupplierID" });
             DropIndex("dbo.Product", new[] { "ProductPreparationID" });
+            DropIndex("dbo.Product", new[] { "ProductSubcategoryID" });
             DropIndex("dbo.Product", new[] { "ProductCategoryID" });
             DropIndex("dbo.PharmacyProduct", "IX_Product_Pharmacy");
             DropIndex("dbo.OrderIntern", new[] { "PharmacySellID" });

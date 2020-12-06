@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
-        Title="StorageView" Height="600" Width="1200" WindowStartupLocation="CenterScreen" 
+        x:Name="SupplyWindow"
+        Title="StorageView" Height="700" Width="1200" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,23 +19,107 @@
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
             <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
                 <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" />
+                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowStorageView"/>
                 <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
                 <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
             </StackPanel>
 
-        </Grid>
         <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
-        </StackPanel>
-        <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Margin="0,50,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
+            <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
 
+            <Label Content="Voorraad" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Vertical" Background="#E1E8EE" Width="600">
+                
+                <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of merk"
+                    Margin="20"
+                    Padding="5,0,0,0"
+                    BorderBrush="#E1E8EE"
+                    Background="White"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"/>
+                <Grid Margin="20,0,20,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Categorie"
+                          Grid.Column="0"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="0,0,5,0"          
+                    />
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Subcategorie"
+                          Grid.Column="1"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="5,0,5,0"
+                          />
+                    <ComboBox 
+                          materialDesign:HintAssist.Hint="Toedieningsvorm"
+                          Grid.Column="2"
+                          Style="{StaticResource MaterialDesignFilledComboBox}"
+                          BorderBrush="#E1E8EE"
+                          Background="White"
+                          Margin="5,0,0,0"
+                          />
+                </Grid>
+            </StackPanel>
+
+            <TextBlock HorizontalAlignment="Right" Margin="0,10,75,0">
+                <Hyperlink TextDecorations="none" Command="{Binding ShowProductViewCommand}" CommandParameter="{Binding ElementName=SupplyWindow}">
+                    <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
+                </Hyperlink>
+            </TextBlock>
+
+            <DataGrid x:Name="dgdSupply" ItemsSource="{Binding Pharmacy}" AutoGenerateColumns="false"
+                      IsReadOnly="True" SelectedItem="{Binding SelectedProduct}" Margin="75,10,75,10" CanUserSortColumns="True"  CanUserAddRows="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8"
+                       materialDesign:DataGridAssist.ColumnHeaderPadding="8" Background="White">
+                <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Binding="{Binding IsSelected}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
+                                <DataGridCheckBoxColumn.Header>
+                                    <!--padding to allow hit test to pass thru for sorting -->
+                                    <Border Background="Transparent" Padding="12 0 12 0" HorizontalAlignment="Center">
+                                        <CheckBox HorizontalAlignment="Center"
+                                                  DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
+                                                  IsChecked="{Binding IsAllItems3Selected}" />
+                                    </Border>
+                                </DataGridCheckBoxColumn.Header>
+                            </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding}" Header="Code" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Naam" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Categorie" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Prijs" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding}" Header="Stock" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Expander Collapsed="exp_Collapsed" Expanded="exp_Expanded"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="Hello" Margin="10" />
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+        </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
             <Grid>
                 <Grid.RowDefinitions>
@@ -52,16 +137,16 @@
                             </Grid>
                         </materialDesign:PopupBox.ToggleContent>
                         <StackPanel Width="150" Background="White">
-                            <Button x:Name="BtnAccount" Content="Mijn Account"/>
+                            <Button x:Name="BtnAccount" Content="Mijn Account" Command="{Binding ShowProfileViewCommand}" CommandParameter="{Binding ElementName=SupplyWindow}"/>
                             <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
-                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red"/>
+                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red" Command="{Binding LogoutCommand}" CommandParameter="{Binding ElementName=SupplyWindow}"/>
                         </StackPanel>
                     </materialDesign:PopupBox>
                     <Button Style="{StaticResource MaterialDesignIconButton}"
-                                HorizontalContentAlignment="Right"
+                                HorizontalAlignment="Right"
                                 Margin="80,0,0,0"
                                 VerticalAlignment="Center"
-                                ToolTip="Close"
+                                ToolTip="Sluiten"
                                 Command="{Binding}"
                                 CommandParameter="CloseApp">
                         <materialDesign:PackIcon Kind="WindowClose" />
@@ -72,6 +157,8 @@
                     <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
                     <TextBlock Text="{Binding}" Foreground="{Binding}"  FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
                 </StackPanel>
+
+
             </Grid>
         </StackPanel>
 

@@ -1,5 +1,4 @@
-﻿using PharmaSoftware_DAL.DomainModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -11,7 +10,7 @@ namespace PharmaSoftware_DAL.Data
 {
     public class PharmaSoftwareEntities : DbContext
     {
-        public PharmaSoftwareEntities(): base("PharmaSoftware")
+        public PharmaSoftwareEntities(): base("name=PharmaSoftwareConnectionString")
         {
 
         }
@@ -39,6 +38,18 @@ namespace PharmaSoftware_DAL.Data
                 .HasRequired(o => o.PharmacySell)
                 .WithMany(p => p.InternSold)
                 .HasForeignKey(o => o.PharmacySellID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasRequired(p => p.ProductCategory)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.ProductCategoryID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasRequired(p => p.ProductSubcategory)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.ProductSubcategoryID)
                 .WillCascadeOnDelete(false);
         }
     }

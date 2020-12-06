@@ -1,13 +1,14 @@
-﻿using System;
+﻿using PharmaSoftware_DAL.Partials;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PharmaSoftware_DAL.DomainModels
+namespace PharmaSoftware_DAL
 {
-    public class ProductSubcategory
+    public class ProductSubcategory: Baseclass
     {
         public int ProductSubcategoryID { get; set; }
 
@@ -17,5 +18,6 @@ namespace PharmaSoftware_DAL.DomainModels
         //NavigationProperties
         public int ProductCategoryID { get; set; }
         public ProductCategory ProductCategory { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

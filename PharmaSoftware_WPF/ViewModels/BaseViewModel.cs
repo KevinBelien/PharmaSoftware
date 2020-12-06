@@ -63,7 +63,7 @@ namespace PharmaSoftware_WPF.ViewModels
             #endregion
 
             #region hulpmethodes
-            public bool IsGeldig()
+            public bool IsValid()
             {
                 return string.IsNullOrWhiteSpace(Error);
             }

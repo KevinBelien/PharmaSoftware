@@ -1,4 +1,5 @@
-﻿using PharmaSoftware_WPF.Views;
+﻿using PharmaSoftware_WPF.State.Authenticators;
+using PharmaSoftware_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,6 @@ namespace PharmaSoftware_WPF.ViewModels
 {
     public class MenuButtonViewModel : BaseViewModel
     {
-
         public override string this[string columnName] => throw new NotImplementedException();
 
         public override bool CanExecute(object parameter)
@@ -21,15 +21,15 @@ namespace PharmaSoftware_WPF.ViewModels
         {
             switch (parameter.ToString())
             {
-                case "ShowLoginView": ShowLoginView(); break;
+                case "ShowStorageView": ShowStorageView(Authenticator.CurrentUser.PharmacyID); break;
             }
         }
-        private void ShowLoginView()
+        private void ShowStorageView(int id)
         {
-            LoginView login = new LoginView();
-            LoginViewModel loginViewModel = new LoginViewModel();
-            login.DataContext = loginViewModel;
-            login.Show();
+            StorageView storageView = new StorageView();
+            StorageViewModel storageViewModel = new StorageViewModel(id);
+            storageView.DataContext = storageViewModel;
+            storageView.Show();
         }
     }
 }

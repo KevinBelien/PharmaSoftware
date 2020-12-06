@@ -39,6 +39,18 @@ namespace PharmaSoftware_DAL.Data
                 .WithMany(p => p.InternSold)
                 .HasForeignKey(o => o.PharmacySellID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasRequired(p => p.ProductCategory)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.ProductCategoryID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Product>()
+                .HasRequired(p => p.ProductSubcategory)
+                .WithMany(p => p.Products)
+                .HasForeignKey(p => p.ProductSubcategoryID)
+                .WillCascadeOnDelete(false);
         }
     }
 }

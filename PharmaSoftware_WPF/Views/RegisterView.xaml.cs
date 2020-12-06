@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PharmaSoftware_WPF.State.ManageWIndows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace PharmaSoftware_WPF.Views
     /// <summary>
     /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : Window
+    public partial class RegisterView : Window,IClosable
     {
         public RegisterView()
         {

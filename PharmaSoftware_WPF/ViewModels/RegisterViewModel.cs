@@ -12,6 +12,8 @@ using PharmaSoftware_WPF.State.Authenticators;
 using PharmaSoftware_WPF.Views;
 using System.Collections.ObjectModel;
 using PharmaSoftware_DAL.Services.HashingServices;
+using PharmaSoftware_WPF.State.ManageWIndows;
+using GalaSoft.MvvmLight.Command;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
@@ -19,158 +21,19 @@ namespace PharmaSoftware_WPF.ViewModels
     {
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
-        private readonly Authenticator _authenticator = new Authenticator();
 
-        private string username;
+        public RelayCommand<IClosable> ShowLoginViewCommand { get; private set; }
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
 
-        public string Username
-        {
-            get
-            {
-                return username;
-            }
-            set
-            {
-                username = value;
-                NotifyPropertyChanged(nameof(Username));
-            }
-        }
-
-
-        private string password;
-        public string Password
-        {
-            get 
-            { 
-                return password; 
-            }
-            set 
-            { 
-                password = value;
-                NotifyPropertyChanged(Password);
-            }
-        }
-
-        private string copyPassword;
-
-        public string CopyPassword
-        {
-            get
-            {
-                return copyPassword;
-            }
-            set
-            {
-                copyPassword = value;
-                NotifyPropertyChanged(CopyPassword);
-            }
-        }
-        private string phone { get; set; }
-
-        public string ConvertPhone
-        {
-            get
-            {
-                return phone;
-            }
-            set
-            {
-                phone = value;
-                NotifyPropertyChanged(nameof(ConvertPhone));
-            }
-        }
-
-        private string city { get; set; }
-
-        public string City
-        {
-            get
-            {
-                return city;
-            }
-            set
-            {
-                city = value;
-                NotifyPropertyChanged(nameof(City));
-            }
-        }
-
-        private string district { get; set; }
-
-        public string District
-        {
-            get
-            {
-                return district;
-            }
-            set
-            {
-                district = value;
-                NotifyPropertyChanged(nameof(District));
-            }
-        }
-
-        private string street{ get; set; }
-
-        public string Street
-        {
-            get
-            {
-                return street;
-            }
-            set
-            {
-                street = value;
-                NotifyPropertyChanged(nameof(Street));
-            }
-        }
-
-        private string zip { get; set; }
-
-        public string ZIP
-        {
-            get
-            {
-                return zip;
-            }
-            set
-            {
-                zip = value;
-                NotifyPropertyChanged(nameof(ZIP));
-            }
-        }
-
-        private string houseNr { get; set; }
-
-        public string HouseNr
-        {
-            get
-            {
-                return houseNr;
-            }
-            set
-            {
-                houseNr= value;
-                NotifyPropertyChanged(nameof(HouseNr));
-            }
-        }
-
-        /*private SecureString encryptedPassword { get; set; }
-        public SecureString EncryptedPassword
-        {
-            get
-            {
-                return encryptedPassword;
-            }
-            set
-            {
-                encryptedPassword = value;
-                NotifyPropertyChanged(Password);
-            }
-        }*/
+        public Pharmacy Pharmacy { get; set; }
+        public string CopyPassword { get; set; }
+        public string ConvertPhone { get; set; }
 
         public RegisterViewModel()
         {
+            this.Pharmacy = new Pharmacy();
+            this.ShowLoginViewCommand = new RelayCommand<IClosable>(this.ShowLoginView);
+            this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
         }
 
         private void AddPharmacy()
@@ -181,62 +44,44 @@ namespace PharmaSoftware_WPF.ViewModels
             errors += ValidateInputFields(ConvertPhone,CopyPassword, ref validPhoneNr);
             if (string.IsNullOrWhiteSpace(errors))
             {
-                string hashPass = passwordHasher.EncryptString(password);
+                Pharmacy.PhoneNr = validPhoneNr;
 
-                Pharmacy pharmacy = FillPharmacy(Username, hashPass, validPhoneNr, ZIP, Street, City, District, HouseNr);
-
-                if (!GetAllPharmacies().Contains(pharmacy))
+                if (!GetAllPharmacies().Contains(Pharmacy))
                 {
-                    if (pharmacy.IsValid())
+                    if (Pharmacy.IsValid())
                     {
-                        _uow.PharmacyRepo.Add(pharmacy);
+                        _uow.PharmacyRepo.Add(Pharmacy);
                         int ok = _uow.Save();
                         if (ok > 0)
                         {
-                            _authenticator.CurrentUser = pharmacy;
-                            ShowStorageView(_authenticator.CurrentUser.PharmacyID);
+                            Authenticator.CurrentUser = Pharmacy;
 
                         }
                         else
                         {
-                            MessageBox.Show("Het registreren is niet gelukt!");
+                            MessageBox.Show("Het registreren is niet gelukt!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        MessageBox.Show(pharmacy.Error);
+                        MessageBox.Show(Pharmacy.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Deze gebruiker bestaat al!");
+                    MessageBox.Show("Deze gebruiker bestaat al!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
             }
             else
             {
-                MessageBox.Show(errors);
+                MessageBox.Show(errors, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         public override string this[string columnName] => throw new NotImplementedException();
 
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            switch (parameter.ToString())
-            {
-                case "CloseApp": Application.Current.Shutdown(); break;
-                case "AddPharmacy": AddPharmacy(); break;
-                case "ShowLoginView": ShowLoginView(); break;
-            }
-        }
-
-        private void ShowStorageView(int id)
+        private void ShowStorageWindow(int id)
         {
             StorageView storageView = new StorageView();
             StorageViewModel storageViewModel = new StorageViewModel(id);
@@ -250,17 +95,15 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 return "Telefoonnummer moet een numerieke waarde hebben!";
             }
-
-            if (password != confirmPassword)
-            {
-                return "Wachtwoorden komen niet overeen!";
-            }
-
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(Pharmacy.PasswordHash))
             {
                 return "Wachtwoord is niet ingevuld!";
             }
-           
+            if (passwordHasher.DecryptString(Pharmacy.PasswordHash) != passwordHasher.DecryptString(confirmPassword))
+            {
+                return "Wachtwoorden komen niet overeen!";
+            }
+         
             return "";
         }
 
@@ -269,24 +112,7 @@ namespace PharmaSoftware_WPF.ViewModels
             return new ObservableCollection<Pharmacy>(_uow.PharmacyRepo.Get());
         }
 
-        private Pharmacy FillPharmacy(string username, string password, int phoneNr, string zip, string street, string city, string district, string houseNr)
-        {
-            Pharmacy pharmacy = new Pharmacy()
-            {
-                Username = username,
-                PasswordHash = password,
-                PhoneNr = phoneNr,
-                ZIP = zip,
-                Street = street,
-                City = city,
-                District = district,
-                HouseNr = houseNr
-            };
-
-            return pharmacy;
-        }
-
-        private void ShowLoginView()
+        private void ShowLoginWindow()
         {
             LoginView login = new LoginView();
             LoginViewModel loginViewModel = new LoginViewModel();
@@ -298,5 +124,42 @@ namespace PharmaSoftware_WPF.ViewModels
         {
             _uow?.Dispose();
         }
+
+        #region Commands
+        public override bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter.ToString())
+            {
+                case "CloseApp": Application.Current.Shutdown(); break;
+            }
+        }
+
+        private void ShowLoginView(IClosable window)
+        {
+            if (window != null)
+            {
+                ShowLoginWindow();
+                window.Close();
+            }
+        }
+
+        private void ShowStorageView(IClosable window)
+        {
+            AddPharmacy();
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+        #endregion
     }
 }

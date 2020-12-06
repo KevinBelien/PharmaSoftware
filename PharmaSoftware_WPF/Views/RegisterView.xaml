@@ -10,6 +10,7 @@
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
+        x:Name="RegisterWindow"
         Title="Registreren" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -32,7 +33,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <TextBox x:Name="txtUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"  Padding="0,0,0,0" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtUsername" Text="{Binding Pharmacy.Username}"  Padding="0,0,0,0" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </DockPanel>
 
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
@@ -45,7 +46,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Password}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
+                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
                 <!--EncryptedPassword="{Binding EncryptedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
             </DockPanel>
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
@@ -71,7 +72,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <TextBox x:Name="txtPhone" Text="{Binding ConvertPhone, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Telefoonnummer" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtPhone" Text="{Binding ConvertPhone}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Telefoonnummer" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </DockPanel>
             
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
@@ -86,13 +87,13 @@
                 </materialDesign:PackIcon>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="txtCity" Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Stad" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="180"/>
-                        <TextBox x:Name="txtZIP" Text="{Binding ZIP, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" Margin="10,0,0,0" materialDesign:HintAssist.Hint="ZIP" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="70"/>
+                        <TextBox x:Name="txtCity" Text="{Binding Pharmacy.City}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Stad" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="180"/>
+                        <TextBox x:Name="txtZIP" Text="{Binding Pharmacy.ZIP}" Padding="0,0,0,0" Margin="10,0,0,0" materialDesign:HintAssist.Hint="ZIP" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="70"/>
                     </StackPanel>
-                    <TextBox x:Name="txtDistrict" Text="{Binding District, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Deelgemeente (optioneel)" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    <TextBox x:Name="txtDistrict" Text="{Binding Pharmacy.District}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Deelgemeente (optioneel)" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="txtStreet" Text="{Binding Street, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Straat" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="180"/>
-                        <TextBox x:Name="txtHouseNr" Text="{Binding HouseNr, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" Margin="10,0,0,0" materialDesign:HintAssist.Hint="Huisnr" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="70"/>
+                        <TextBox x:Name="txtStreet" Text="{Binding Pharmacy.Street}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Straat" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="180"/>
+                        <TextBox x:Name="txtHouseNr" Text="{Binding Pharmacy.HouseNr}" Padding="0,0,0,0" Margin="10,0,0,0" materialDesign:HintAssist.Hint="Huisnr" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="70"/>
                     </StackPanel>
                 </StackPanel>
             </DockPanel>
@@ -100,10 +101,10 @@
 
             <Button x:Name="btnRegister" Content="Registreren" Background="#2E75B2" FontWeight="Bold" Foreground="White"
                     BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"
-                    Command="{Binding}" CommandParameter="AddPharmacy"/>
+                    Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=RegisterWindow}"/>
 
             <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
-                <Hyperlink Command="{Binding}" CommandParameter="ShowLoginView">
+                <Hyperlink Command="{Binding ShowLoginViewCommand}" CommandParameter="{Binding ElementName=RegisterWindow}">
                     <TextBlock Text="Aanmelden" />
                 </Hyperlink>
             </TextBlock>

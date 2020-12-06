@@ -13,17 +13,22 @@ namespace PharmaSoftware_DAL.Services.HashingServices
         {
             try
             {
-                //Converteren 64 bits naar 8 bits;
-                byte[] data = Convert.FromBase64String(decr);
-                using (SHA256CryptoServiceProvider sha256 = new SHA256CryptoServiceProvider())
+                if (decr != null)
                 {
-                    byte[] keys = sha256.ComputeHash(UTF8Encoding.UTF8.GetBytes("1Yhd_)283A2.90hdsoHDS902983__0kjdks394_#fff1204HEbsKDPf8Ile=27HgFVHfdç!..90)éài?34"));
-                    using (AesCryptoServiceProvider tripdes = new AesCryptoServiceProvider { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.ISO10126 })
-                    {//Een symmetrisch decryptor object aanmaken 
-                        ICryptoTransform transform = tripdes.CreateDecryptor();
-                        byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
-                        //byte array omzetten in string
-                        return UTF8Encoding.UTF8.GetString(results);
+
+
+                    //Converteren 64 bits naar 8 bits;
+                    byte[] data = Convert.FromBase64String(decr);
+                    using (SHA256CryptoServiceProvider sha256 = new SHA256CryptoServiceProvider())
+                    {
+                        byte[] keys = sha256.ComputeHash(UTF8Encoding.UTF8.GetBytes("1Yhd_)283A2.90hdsoHDS902983__0kjdks394_#fff1204HEbsKDPf8Ile=27HgFVHfdç!..90)éài?34"));
+                        using (AesCryptoServiceProvider tripdes = new AesCryptoServiceProvider { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.ISO10126 })
+                        {//Een symmetrisch decryptor object aanmaken 
+                            ICryptoTransform transform = tripdes.CreateDecryptor();
+                            byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                            //byte array omzetten in string
+                            return UTF8Encoding.UTF8.GetString(results);
+                        }
                     }
                 }
             }
@@ -31,6 +36,7 @@ namespace PharmaSoftware_DAL.Services.HashingServices
             {
                 return "";
             }
+            return "";
         }
 
         public string EncryptString(string encr)

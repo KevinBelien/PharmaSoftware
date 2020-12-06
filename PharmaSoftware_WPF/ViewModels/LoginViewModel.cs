@@ -21,81 +21,56 @@ namespace PharmaSoftware_WPF.ViewModels
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
 
-        private string username;
-        public string Username
-        {
-            get
-            {
-                return username;
-            }
-            set
-            {
-                username = value;
-                NotifyPropertyChanged(nameof(Username));
-            }
-        }
 
-        private string password;
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-            set
-            {
-                password = value;
-                NotifyPropertyChanged(Password);
-            }
-        }
+        public Pharmacy Pharmacy { get; set; }
 
         public override string this[string columnName] => throw new NotImplementedException();
 
         private void Login()
         {
-            string errors = ValidateInputFields(Password);
+            string errors = ValidateInputFields();
             if (errors == "")
             {
-                Pharmacy checkPharm = new Pharmacy
+                /*Pharmacy checkPharm = new Pharmacy
                 {
                     Username = Username,
                     PasswordHash = Password
-                };
+                };*/
 
-                Pharmacy pharm = _uow.PharmacyRepo.Get(x => x.Username == checkPharm.Username).FirstOrDefault();
+                Pharmacy pharm = _uow.PharmacyRepo.Get(x => x.Username == Pharmacy.Username).FirstOrDefault();
                 if (pharm != null)
                 {
-                    if (passwordHasher.DecryptString(pharm.PasswordHash) == passwordHasher.DecryptString(checkPharm.PasswordHash))
+                    if (passwordHasher.DecryptString(pharm.PasswordHash) == passwordHasher.DecryptString(Pharmacy.PasswordHash))
                     {
                         Authenticator.CurrentUser = pharm;
                     }
                     else
                     {
-                        Password = "";
+                        Pharmacy.PasswordHash = "";
                         MessageBox.Show($"Ongeldig wachtwoord!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show($"Gebruiker met gebruikersnaam {checkPharm.Username} bestaat niet!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Gebruiker met gebruikersnaam {Pharmacy.Username} bestaat niet!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
             }
             else
             {
-                MessageBox.Show(errors, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Pharmacy.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
 
         }
 
-        private string ValidateInputFields(string password)
+        private string ValidateInputFields()
         {
-            if (string.IsNullOrWhiteSpace(Username))
+            if (string.IsNullOrWhiteSpace(Pharmacy.Username))
             {
                 return "Gebruikersnaam is niet ingevuld!";
             }
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(Pharmacy.PasswordHash))
             {
                 return "Wachtwoord is niet ingevuld!";
             }
@@ -142,6 +117,7 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public LoginViewModel()
         {
+            Pharmacy = new Pharmacy();
             this.ShowRegisterViewCommand = new RelayCommand<IClosable>(this.ShowRegisterView);
             this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
 

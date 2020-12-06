@@ -13,7 +13,7 @@ namespace PharmaSoftware_DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202011130121204_InitialCreate"; }
+            get { return "202012060806513_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

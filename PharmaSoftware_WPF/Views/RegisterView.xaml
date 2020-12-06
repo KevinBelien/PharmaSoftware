@@ -46,7 +46,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Password}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
+                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
                 <!--EncryptedPassword="{Binding EncryptedPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
             </DockPanel>
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
@@ -72,7 +72,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <TextBox x:Name="txtPhone" Text="{Binding ConvertPhone, UpdateSourceTrigger=PropertyChanged}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Telefoonnummer" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtPhone" Text="{Binding ConvertPhone}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Telefoonnummer" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </DockPanel>
             
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">

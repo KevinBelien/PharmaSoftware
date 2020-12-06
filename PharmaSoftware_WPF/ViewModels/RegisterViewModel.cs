@@ -26,64 +26,8 @@ namespace PharmaSoftware_WPF.ViewModels
         public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
 
         public Pharmacy Pharmacy { get; set; }
-
-        private string password;
-        public string Password
-        {
-            get 
-            { 
-                return password; 
-            }
-            set 
-            { 
-                password = value;
-                NotifyPropertyChanged(Password);
-            }
-        }
-
-        private string copyPassword;
-
-        public string CopyPassword
-        {
-            get
-            {
-                return copyPassword;
-            }
-            set
-            {
-                copyPassword = value;
-                NotifyPropertyChanged(CopyPassword);
-            }
-        }
-        private string phone { get; set; }
-
-        public string ConvertPhone
-        {
-            get
-            {
-                return phone;
-            }
-            set
-            {
-                phone = value;
-                NotifyPropertyChanged(nameof(ConvertPhone));
-            }
-        }
-
-
-        /*private SecureString encryptedPassword { get; set; }
-        public SecureString EncryptedPassword
-        {
-            get
-            {
-                return encryptedPassword;
-            }
-            set
-            {
-                encryptedPassword = value;
-                NotifyPropertyChanged(Password);
-            }
-        }*/
+        public string CopyPassword { get; set; }
+        public string ConvertPhone { get; set; }
 
         public RegisterViewModel()
         {
@@ -101,8 +45,6 @@ namespace PharmaSoftware_WPF.ViewModels
             if (string.IsNullOrWhiteSpace(errors))
             {
                 Pharmacy.PhoneNr = validPhoneNr;
-                Pharmacy.PasswordHash = Password;
-                //string hashPass = passwordHasher.EncryptString(password);
 
                 if (!GetAllPharmacies().Contains(Pharmacy))
                 {
@@ -117,23 +59,23 @@ namespace PharmaSoftware_WPF.ViewModels
                         }
                         else
                         {
-                            MessageBox.Show("Het registreren is niet gelukt!");
+                            MessageBox.Show("Het registreren is niet gelukt!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        MessageBox.Show(Pharmacy.Error);
+                        MessageBox.Show(Pharmacy.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Deze gebruiker bestaat al!");
+                    MessageBox.Show("Deze gebruiker bestaat al!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
             }
             else
             {
-                MessageBox.Show(errors);
+                MessageBox.Show(errors, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -153,17 +95,15 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 return "Telefoonnummer moet een numerieke waarde hebben!";
             }
-
-            if (passwordHasher.DecryptString(password) != passwordHasher.DecryptString(confirmPassword))
-            {
-                return "Wachtwoorden komen niet overeen!";
-            }
-
-            if (string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(Pharmacy.PasswordHash))
             {
                 return "Wachtwoord is niet ingevuld!";
             }
-           
+            if (passwordHasher.DecryptString(Pharmacy.PasswordHash) != passwordHasher.DecryptString(confirmPassword))
+            {
+                return "Wachtwoorden komen niet overeen!";
+            }
+         
             return "";
         }
 

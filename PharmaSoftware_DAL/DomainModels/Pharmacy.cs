@@ -15,7 +15,7 @@ namespace PharmaSoftware_DAL
     {
         public int PharmacyID { get; set; }
 
-        [Required(ErrorMessage = "Username is een verplicht veld")]
+        [Required(ErrorMessage = "Gebruikersnaam is een verplicht veld")]
         public string Username { get; set; }
 
         [Required]

@@ -36,7 +36,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <TextBox x:Name="txtUsername" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtUsername" Text="{Binding Pharmacy.Username}" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </DockPanel>
             
             <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
@@ -49,7 +49,7 @@
                         <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
                     </materialDesign:PackIcon.LayoutTransform>
                 </materialDesign:PackIcon>
-                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Password}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
+                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
             </DockPanel>
 
             <Button x:Name="btnLogin" Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=LoginWindow}" Content="Inloggen" Background="#2E75B2" FontWeight="Bold" Foreground="White" BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>

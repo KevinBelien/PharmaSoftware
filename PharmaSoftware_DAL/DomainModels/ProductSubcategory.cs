@@ -18,5 +18,6 @@ namespace PharmaSoftware_DAL
         //NavigationProperties
         public int ProductCategoryID { get; set; }
         public ProductCategory ProductCategory { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

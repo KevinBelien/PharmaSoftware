@@ -121,10 +121,10 @@
 
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="40,30,0,0">
-                <Button Content="Product toevoegen" Width="200" Background="#2E75B2" FontWeight="Bold" BorderBrush="#2E75B2"
+                <Button Content="Product toevoegen" Width="200" Background="#2E75B2" FontWeight="Bold" BorderBrush="#2E75B2" materialDesign:ShadowAssist.ShadowDepth="Depth0"
                          Command="{Binding AddProductCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
                 <Button Content="Annuleer" Width="150" Background="White" Foreground="#2E75B2"
-                            FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2" Margin="30,0,0,0"
+                            FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2" Margin="30,0,0,0" materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
             </StackPanel>
 

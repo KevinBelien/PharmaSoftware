@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using MaterialDesignThemes.Wpf;
 using PharmaSoftware_DAL;
 using PharmaSoftware_DAL.Data;
 using PharmaSoftware_DAL.Data.UnitOfWork;
@@ -8,10 +9,15 @@ using PharmaSoftware_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
@@ -24,9 +30,12 @@ namespace PharmaSoftware_WPF.ViewModels
 
 
         Pharmacy Pharmacy { get; set; }
-        public ObservableCollection<Product> Products { get; set; }
-        public ObservableCollection<Product> PharmacyProducts { get; set; } 
 
+        public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<PharmacyProduct> PharmacyProducts { get; set; }
+        public bool IsSelected { get; set; }
+        public List<PharmacyProduct> SelectedProducts { get; set; }
+        public Color StockColor { get; set; }
 
         public StorageViewModel(int id)
         {
@@ -34,11 +43,15 @@ namespace PharmaSoftware_WPF.ViewModels
             this.ShowProductViewCommand = new RelayCommand<IClosable>(this.ShowProductView);
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
 
+
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id, 
                 p => p.PharmacyProducts.Select(pp => pp.Product))
                 .FirstOrDefault();
 
+           
             Products = new ObservableCollection<Product>(_uow.ProductRepo.Get());
+            PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID,
+                pp => pp.Product.ProductCategory));
 
             //PharmacyProducts = GetAllProductsFromPharmacy();
 
@@ -70,6 +83,8 @@ namespace PharmaSoftware_WPF.ViewModels
             switch (parameter.ToString())
             {
                 case "CloseApp": Application.Current.Shutdown(); break;
+                case "RowDetailChanged": ; break;
+
             }
         }
 
@@ -128,6 +143,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 }
             }
         }
+
         #endregion
     }
 }

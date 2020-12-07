@@ -1,4 +1,6 @@
-﻿using PharmaSoftware_WPF.State.ManageWIndows;
+﻿using MaterialDesignThemes.Wpf;
+using PharmaSoftware_WPF.State.ManageWIndows;
+using PharmaSoftware_WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,28 @@ namespace PharmaSoftware_WPF.Views
             InitializeComponent();
         }
 
-        private void exp_Collapsed(object sender, RoutedEventArgs e)
+        /*private void btnRowDetailChanged_Click(object sender, RoutedEventArgs e)
+        {
+            DependencyObject obj = (DependencyObject)e.OriginalSource;
+            while (!(obj is DataGridRow) && obj != null) obj = VisualTreeHelper.GetParent(obj);
+
+            if (obj is DataGridRow)
+            {
+                if ((obj as DataGridRow).DetailsVisibility == Visibility.Visible)
+                {
+                    (obj as DataGridRow).DetailsVisibility = Visibility.Collapsed;
+
+                }
+                else
+                {
+                    (obj as DataGridRow).DetailsVisibility = Visibility.Visible;            
+                }
+            }
+        }*/
+
+
+
+        /*private void exp_Collapsed(object sender, RoutedEventArgs e)
         {
             this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
         }
@@ -33,7 +56,7 @@ namespace PharmaSoftware_WPF.Views
         private void exp_Expanded(object sender, RoutedEventArgs e)
         {
             this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
-        }
+        }*/
 
     }
 }

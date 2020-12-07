@@ -22,5 +22,6 @@ namespace PharmaSoftware_DAL
             hashCode = hashCode * -1521134295 + ProductID.GetHashCode();
             return hashCode;
         }
+
     }
 }

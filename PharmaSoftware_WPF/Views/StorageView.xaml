@@ -6,27 +6,33 @@
         xmlns:local="clr-namespace:PharmaSoftware_WPF.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
+        xmlns:converters="clr-namespace:PharmaSoftware_WPF.Converters"
         mc:Ignorable="d"
         TextElement.FontFamily="Nunito"
         TextElement.FontSize="13"
         x:Name="SupplyWindow"
-        Title="StorageView" Height="700" Width="1200" WindowStartupLocation="CenterScreen" 
+        Title="StorageView" Height="700" Width="1300" WindowStartupLocation="CenterScreen" 
         WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
+    <Window.Resources>
+        <converters:IntToColorConverter x:Key="IntToColorConverter"/>
+        <converters:VisibilityToNullableBooleanConverter x:Key="VisibilityToNullableBooleanConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="240"/>
         </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
-                <TextBlock Text="pharma." Foreground="#2E75B2"  
+        <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
+            <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowStorageView"/>
-                <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
-                <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
-            </StackPanel>
+            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowStorageView"/>
+            <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+            <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+        </StackPanel>
 
         <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
         <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -34,9 +40,9 @@
             <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
 
             <Label Content="Voorraad" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
-            <StackPanel Orientation="Vertical" Background="#E1E8EE" Width="600">
-                
-                <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of merk"
+            <StackPanel Orientation="Vertical" Background="#E1E8EE" Margin="60,0">
+
+                <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of productcode"
                     Margin="20"
                     Padding="5,0,0,0"
                     BorderBrush="#E1E8EE"
@@ -44,7 +50,7 @@
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
                     TextWrapping="Wrap"/>
-                <Grid Margin="20,0,20,20">
+                <!--<Grid Margin="20,0,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition/>
@@ -74,52 +80,84 @@
                           Background="White"
                           Margin="5,0,0,0"
                           />
-                </Grid>
+                </Grid>-->
             </StackPanel>
 
-            <TextBlock HorizontalAlignment="Right" Margin="0,10,75,0">
+            <TextBlock HorizontalAlignment="Right" Margin="0,10,60,0">
                 <Hyperlink TextDecorations="none" Command="{Binding ShowProductViewCommand}" CommandParameter="{Binding ElementName=SupplyWindow}">
                     <TextBlock Text="+ Product Toevoegen" FontWeight="Bold" />
                 </Hyperlink>
             </TextBlock>
 
-            <DataGrid x:Name="dgdSupply" ItemsSource="{Binding Pharmacy}" AutoGenerateColumns="false"
-                      IsReadOnly="True" SelectedItem="{Binding SelectedProduct}" Margin="75,10,75,10" CanUserSortColumns="True"  CanUserAddRows="False" materialDesign:DataGridAssist.CellPadding="13 8 8 8"
-                       materialDesign:DataGridAssist.ColumnHeaderPadding="8" Background="White">
+            <DataGrid x:Name="dgdSupply" ItemsSource="{Binding PharmacyProducts}" AutoGenerateColumns="false"
+                      IsReadOnly="True" SelectedItem="{Binding SelectedProduct}" Margin="60,10" CanUserSortColumns="True"  CanUserAddRows="False"
+                      Background="White" FontSize="12" RowDetailsVisibilityMode="Collapsed" Style="{StaticResource MaterialDesignDataGrid}">
+                <DataGrid.Resources>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                    </Style>
+
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Binding="{Binding IsSelected}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
-                                EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}">
-                                <DataGridCheckBoxColumn.Header>
-                                    <!--padding to allow hit test to pass thru for sorting -->
-                                    <Border Background="Transparent" Padding="12 0 12 0" HorizontalAlignment="Center">
-                                        <CheckBox HorizontalAlignment="Center"
-                                                  DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
-                                                  IsChecked="{Binding IsAllItems3Selected}" />
-                                    </Border>
-                                </DataGridCheckBoxColumn.Header>
-                            </DataGridCheckBoxColumn>
-                    <DataGridTextColumn Binding="{Binding}" Header="Code" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Binding="{Binding}" Header="Naam" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Binding="{Binding}" Header="Categorie" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Binding="{Binding}" Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Binding="{Binding}" Header="Prijs" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTextColumn Binding="{Binding}" Header="Stock" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                    <DataGridTemplateColumn>
+
+                    <DataGridCheckBoxColumn  Binding="{Binding IsSelected}" ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" IsReadOnly="False" CanUserSort="False">
+
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding Product.Code}" Header="Code" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Product.Name}" Header="Naam" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Product.ProductCategory}" Header="Categorie" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding DateOfOrder, StringFormat=d}"   Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding Product.Cost, StringFormat=C, ConverterCulture='nl-BE'}"  Header="Prijs" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTemplateColumn Header="Stock" >
                         <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate >
+                                <Ellipse 
+                                    Width="10"
+                                    Height="10"
+                                    Fill="{Binding QtyInStorage, Converter={StaticResource IntToColorConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="80">
+                        
+                        <DataGridTemplateColumn.CellTemplate>
+                            
                             <DataTemplate>
-                                <Expander Collapsed="exp_Collapsed" Expanded="exp_Expanded"/>
+
+                                <ToggleButton x:Name="btnRowDetailChanged"
+                                              IsChecked="{Binding Path= DetailsVisibility, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}},
+                                              Converter={StaticResource VisibilityToNullableBooleanConverter}}" 
+                                              Style="{StaticResource MaterialDesignExpandCollapseToggleStyle}"
+                                          Foreground="Black">
+                                </ToggleButton>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
                 </DataGrid.Columns>
                 <DataGrid.RowDetailsTemplate>
+                    
                     <DataTemplate>
                         <TextBlock Text="Hello" Margin="10" />
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
+
             </DataGrid>
         </StackPanel>
+
+
         <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
             <Grid>
                 <Grid.RowDefinitions>

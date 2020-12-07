@@ -52,7 +52,10 @@
                 <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
             </DockPanel>
 
-            <Button x:Name="btnLogin" Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=LoginWindow}" Content="Inloggen" Background="#2E75B2" FontWeight="Bold" Foreground="White" BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <Button x:Name="btnLogin" Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=LoginWindow}"
+                    Content="Inloggen" Background="#2E75B2" FontWeight="Bold" Foreground="White"
+                    BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"
+                     materialDesign:ShadowAssist.ShadowDepth="Depth0"/>
 
             <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Hyperlink Command="{Binding ShowRegisterViewCommand}"  CommandParameter="{Binding ElementName=LoginWindow}">

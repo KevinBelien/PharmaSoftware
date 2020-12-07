@@ -101,6 +101,7 @@
 
             <Button x:Name="btnRegister" Content="Registreren" Background="#2E75B2" FontWeight="Bold" Foreground="White"
                     BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
                     Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=RegisterWindow}"/>
 
             <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">

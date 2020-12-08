@@ -26,37 +26,5 @@ namespace PharmaSoftware_WPF.Views
         {
             InitializeComponent();
         }
-
-        /*private void btnRowDetailChanged_Click(object sender, RoutedEventArgs e)
-        {
-            DependencyObject obj = (DependencyObject)e.OriginalSource;
-            while (!(obj is DataGridRow) && obj != null) obj = VisualTreeHelper.GetParent(obj);
-
-            if (obj is DataGridRow)
-            {
-                if ((obj as DataGridRow).DetailsVisibility == Visibility.Visible)
-                {
-                    (obj as DataGridRow).DetailsVisibility = Visibility.Collapsed;
-
-                }
-                else
-                {
-                    (obj as DataGridRow).DetailsVisibility = Visibility.Visible;            
-                }
-            }
-        }*/
-
-
-
-        /*private void exp_Collapsed(object sender, RoutedEventArgs e)
-        {
-            this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
-        }
-
-        private void exp_Expanded(object sender, RoutedEventArgs e)
-        {
-            this.dgdSupply.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
-        }*/
-
     }
 }

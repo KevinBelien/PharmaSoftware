@@ -6,173 +6,182 @@
         xmlns:local="clr-namespace:PharmaSoftware_WPF.Views"
         xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
         mc:Ignorable="d"
+        xmlns:converters="clr-namespace:PharmaSoftware_WPF.Converters"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="ProductWindow"
-        Title="Product toevoegen" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
+        Title="Product toevoegen" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True" Background="Transparent">
+    <Window.Resources>
+        <converters:IssueToColorConverter x:Key="IssueToColorConverter"/>
+    </Window.Resources>
+    <Border Height="680" Width="1180" Background="White">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
+        </Border.Effect>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="250"/>
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
-            <TextBlock Text="pharma." Foreground="#2E75B2"  
+            <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
+                <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0"
+                <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0"
                                        SomeCommand="{Binding ShowStorageViewCommand}"/>
-            <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" />
-            <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
-        </StackPanel>
+                <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" />
+                <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+            </StackPanel>
 
-        <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
-        <StackPanel Grid.Column="1" Orientation="Vertical">
-            <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
-            <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
-            <Label Content="Product toevoegen" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+            <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
+                <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
+                <Label Content="Product toevoegen" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
 
-            <Grid Margin="40,0,40,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110"/>
-                    <ColumnDefinition Width="205"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="205"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Label Content="Productinformatie" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
-                <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Padding="0" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding Product.Code}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                <Grid Margin="40,0,40,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="205"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="205"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="Productinformatie" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
+                    <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Padding="0" Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding Product.Code}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
-                <Label Content="Naam:" VerticalAlignment="Center" Grid.Row="2" Padding="0" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding Product.Name}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
+                    <Label Content="Naam:" VerticalAlignment="Center" Grid.Row="2" Padding="0" Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding Product.Name}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
 
-                <Label Content="Categorie:" VerticalAlignment="Center" Grid.Row="3" Padding="0" Margin="0,0,0,8"/>
-                <ComboBox x:Name="cmbCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
+                    <Label Content="Categorie:" VerticalAlignment="Center" Grid.Row="3" Padding="0" Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cmbCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
                           SelectedItem="{Binding SelectedCategory}"
                           Grid.Row="3" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding}" CommandParameter="ShowSubcategories"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding}" CommandParameter="ShowSubcategories"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
 
-                <Label Content="Subcategorie:" VerticalAlignment="Center" Grid.Row="4" Padding="0" Margin="0,0,0,8"/>
-                <ComboBox x:Name="cmbSubcategory" ItemsSource="{Binding Subcategories}" DisplayMemberPath="Name" IsEnabled="{Binding CmbIsEnabled}"
+                    <Label Content="Subcategorie:" VerticalAlignment="Center" Grid.Row="4" Padding="0" Margin="0,0,0,8"/>
+                    <ComboBox x:Name="cmbSubcategory" ItemsSource="{Binding Subcategories}" DisplayMemberPath="Name" IsEnabled="{Binding CmbIsEnabled}"
                           SelectedItem="{Binding SelectedSubcategory}" 
                           Grid.Row="4" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 
 
-                <Label Content="Merk:" VerticalAlignment="Center" Grid.Row="5" Padding="0" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding Product.Brand}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
+                    <Label Content="Merk:" VerticalAlignment="Center" Grid.Row="5" Padding="0" Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding Product.Brand}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
 
-                <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
-                <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
+                    <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
                           SelectedValue="{Binding Product.SupplierID}" SelectedValuePath="SupplierID"
                           IsSynchronizedWithCurrentItem="True"
 
                     Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 
-                <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <TextBox Text="{Binding Product.Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                    <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <TextBox Text="{Binding Product.Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
-                <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <TextBox Text="{Binding Product.Content}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                    <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <TextBox Text="{Binding Product.Content}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
-                <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <DockPanel Grid.Column="3" Grid.Row="3">
-                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                    <TextBox Text="{Binding Product.Price}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
-                </DockPanel>
+                    <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <DockPanel Grid.Column="3" Grid.Row="3">
+                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
+                        <TextBox Text="{Binding Product.Price}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
+                    </DockPanel>
 
-                <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <DockPanel Grid.Column="3" Grid.Row="4">
-                    <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                    <TextBox Text="{Binding Product.Cost}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
-                </DockPanel>
+                    <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <DockPanel Grid.Column="3" Grid.Row="4">
+                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
+                        <TextBox Text="{Binding Product.Cost}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
+                    </DockPanel>
 
-                <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name"
+                    <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name"
                           SelectedValue="{Binding Product.ProductPreparationID}" SelectedValuePath="ProductPreparationID"  Grid.Row="5" Grid.Column="3"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
-            </Grid>
-            
-            
-            <StackPanel Orientation="Vertical" Margin="40,40,40,0">
-                <Label Content="Voorraad" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="In stock:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                    <TextBox Text="{Binding QtyInStorage}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="10,0,0,8"/>
+                </Grid>
+
+
+                <StackPanel Orientation="Vertical" Margin="40,40,40,0">
+                    <Label Content="Voorraad" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="In stock:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
+                        <TextBox Text="{Binding QtyInStorage}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="10,0,0,8"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Besteld:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
+                        <TextBox Text="{Binding QtyOrdered}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="11,0,0,8"/>
+                    </StackPanel>
+
+
+
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Besteld:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                    <TextBox Text="{Binding QtyOrdered}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="11,0,0,8"/>
-                </StackPanel>
-
-
-
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="40,30,0,0">
-                <Button Content="Product toevoegen" Width="200" Background="#2E75B2" FontWeight="Bold" BorderBrush="#2E75B2" materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                <StackPanel Orientation="Horizontal" Margin="40,30,0,0">
+                    <Button Content="Product toevoegen" Width="200" Background="#2E75B2" FontWeight="Bold" BorderBrush="#2E75B2" materialDesign:ShadowAssist.ShadowDepth="Depth0"
                          Command="{Binding AddProductCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
-                <Button Content="Annuleer" Width="150" Background="White" Foreground="#2E75B2"
+                    <Button Content="Annuleer" Width="150" Background="White" Foreground="#2E75B2"
                             FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2" Margin="30,0,0,0" materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
+                </StackPanel>
+
+
+
             </StackPanel>
-
-
-
-        </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="52"/>
-                    <RowDefinition Height="548"/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="0" Width="220">
-                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Margin="0" Height="52" VerticalAlignment="Top" >
-                        <materialDesign:PopupBox.ToggleContent>
-                            <Grid>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Account" Width="28" Height="28" Foreground="#2E75B2"/>
-                                    <TextBlock Text="Account" VerticalAlignment="Center" Margin="10,2,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </materialDesign:PopupBox.ToggleContent>
-                        <StackPanel Width="150" Background="White">
-                            <Button x:Name="BtnAccount" Content="Mijn Account"  Command="{Binding ShowProfileViewCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
-                            <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
-                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red"  Command="{Binding LogoutCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
+            <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="52"/>
+                        <RowDefinition Height="548"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="0" Width="220">
+                        <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Margin="0" Height="52" VerticalAlignment="Top" >
+                            <materialDesign:PopupBox.ToggleContent>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Account" Width="28" Height="28" Foreground="#2E75B2"/>
+                                        <TextBlock Text="Account" VerticalAlignment="Center" Margin="10,2,0,0"/>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:PopupBox.ToggleContent>
+                            <StackPanel Width="150" Background="White">
+                                <Button x:Name="BtnAccount" Content="Mijn Account"  Command="{Binding ShowProfileViewCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
+                                <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
+                                <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red"  Command="{Binding LogoutCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+                        <Button Style="{StaticResource MaterialDesignIconButton}"
                                 HorizontalAlignment="Right"
                                 Margin="80,0,0,0"
                                 VerticalAlignment="Center"
                                 ToolTip="Sluiten"
                                 Command="{Binding}"
                                 CommandParameter="CloseApp">
-                        <materialDesign:PackIcon Kind="WindowClose" />
-                    </Button>
-                </StackPanel>
-                <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
-                    <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
-                    <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
-                    <TextBlock Text="{Binding}" Foreground="{Binding}"  FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTextBlock}"/>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-    </Grid>
+                            <materialDesign:PackIcon Kind="WindowClose" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
+                        <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
+                        <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
+                        <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}}"
+                               FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTextBlock}"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

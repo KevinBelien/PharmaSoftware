@@ -46,7 +46,7 @@ namespace PharmaSoftware_WPF.ViewModels
         //public Product KnownProduct { get; set; }
         public string QtyInStorage { get; set; }
         public string QtyOrdered { get; set; }
-
+        public int QtyStockIssues { get; set; }
 
 
         public override string this[string columnName] => throw new NotImplementedException();
@@ -72,6 +72,8 @@ namespace PharmaSoftware_WPF.ViewModels
             Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get().OrderBy(c => c.Name));
             Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get()
                 .OrderBy(p => p.Name == "Overige").ThenBy(p => p.Name));
+
+            QtyStockIssues = CountStockIssues(5);
         }
 
         public void Dispose()
@@ -305,6 +307,17 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.Show();
         }
 
-
+        private int CountStockIssues(int minimumStock)
+        {
+            int issues = 0;
+            foreach (PharmacyProduct product in PharmacyProducts)
+            {
+                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
+                {
+                    issues++;
+                }
+            }
+            return issues;
+        }
     }
 }

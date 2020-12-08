@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ namespace PharmaSoftware_DAL
 {
     public partial class PharmacyProduct
     {
+        [NotMapped]
+        public bool IsSelected { get; set; }
         public override bool Equals(object obj)
         {
             return obj is PharmacyProduct product &&

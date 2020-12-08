@@ -23,7 +23,8 @@ namespace PharmaSoftware_DAL
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Barcode is een verplicht veld")]
-        public int Barcode { get; set; }
+        [StringLength(13,MinimumLength = 13,ErrorMessage="Barcode is ongeldig!")]
+        public string Barcode { get; set; }
 
         [Required(ErrorMessage = "Inhoud is een verplicht veld")]
         [MaxLength(20)]

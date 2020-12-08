@@ -23,7 +23,7 @@
             <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding }"/>
+            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding }" SomeCommandParameter="ShowStorageView"/>
             <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" />
             <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
         </StackPanel>
@@ -80,10 +80,12 @@
                 <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
                           SelectedValue="{Binding Product.SupplierID}" SelectedValuePath="SupplierID"
-                          Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
+                          IsSynchronizedWithCurrentItem="True"
+
+                    Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 
                 <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <TextBox Text="{Binding Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                <TextBox Text="{Binding Product.Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
                 <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                 <TextBox Text="{Binding Product.Content}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
@@ -102,7 +104,7 @@
 
                 <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name"
-                          SelectedValue="{Binding Product.PreparationID}" SelectedValuePath="PreparationID"  Grid.Row="5" Grid.Column="3"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
+                          SelectedValue="{Binding Product.ProductPreparationID}" SelectedValuePath="ProductPreparationID"  Grid.Row="5" Grid.Column="3"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
             </Grid>
             
             

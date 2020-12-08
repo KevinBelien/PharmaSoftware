@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:PharmaSoftware_WPF.customcontrols"
-        TextElement.FontFamily="Nunito"
+        TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="LoginWindow"

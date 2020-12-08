@@ -8,7 +8,7 @@
         xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
         xmlns:converters="clr-namespace:PharmaSoftware_WPF.Converters"
         mc:Ignorable="d"
-        TextElement.FontFamily="Nunito"
+        TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         x:Name="SupplyWindow"
         Title="StorageView" Height="700" Width="1300" WindowStartupLocation="CenterScreen" 
@@ -29,7 +29,7 @@
             <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding}" SomeCommandParameter="ShowStorageView"/>
+            <customcontrols:MenuButton isSelected="True"  Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding ShowStorageViewCommand}"/>
             <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
             <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
         </StackPanel>

@@ -7,7 +7,7 @@
         xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.FontFamily="Nunito"
+        TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="RegisterWindow"

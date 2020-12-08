@@ -7,11 +7,12 @@
         xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        TextElement.FontFamily="Nunito"
+        TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="ProductWindow"
         Title="Product toevoegen" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -23,7 +24,8 @@
             <TextBlock Text="pharma." Foreground="#2E75B2"  
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="30" FontFamily="Arial Rounded MT"/>
-            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding }" SomeCommandParameter="ShowStorageView"/>
+            <customcontrols:MenuButton isSelected="True" Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0"
+                                       SomeCommand="{Binding ShowStorageViewCommand}"/>
             <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0" />
             <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
         </StackPanel>
@@ -80,7 +82,7 @@
                 <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
                           SelectedValue="{Binding Product.SupplierID}" SelectedValuePath="SupplierID"
-                          IsSynchronizedWithCurrentItem="True" materialDesign:HintAssist.Hint="Leverancier"
+                          IsSynchronizedWithCurrentItem="True"
 
                     Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 

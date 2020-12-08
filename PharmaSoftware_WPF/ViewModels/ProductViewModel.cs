@@ -23,7 +23,7 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand<IClosable> CancelCommand { get; private set; }
-        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; set; }
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
         public RelayCommand<IClosable> AddProductCommand { get; private set; }
 

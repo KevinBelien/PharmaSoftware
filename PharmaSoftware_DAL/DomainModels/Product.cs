@@ -39,7 +39,7 @@ namespace PharmaSoftware_DAL
         public decimal Cost { get; set; }
 
         [Required(ErrorMessage = "Merk is een verplicht veld")]
-        [MaxLength(150)]
+        [MaxLength(150, ErrorMessage = "Merk kan maar 150 karakters bevatten!")]
         public string Brand { get; set; }
 
         //Navigation properties

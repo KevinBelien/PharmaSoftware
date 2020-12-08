@@ -68,9 +68,10 @@ namespace PharmaSoftware_WPF.ViewModels
                 .FirstOrDefault();
 
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID, pp => pp.Product));
-            Suppliers = new ObservableCollection<Supplier>(_uow.SupplierRepo.Get());
-            Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get());
-            Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get());
+            Suppliers = new ObservableCollection<Supplier>(_uow.SupplierRepo.Get().OrderBy(s => s.Name));
+            Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get().OrderBy(c => c.Name));
+            Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get()
+                .OrderBy(p => p.Name == "Overige").ThenBy(p => p.Name));
         }
 
         public void Dispose()

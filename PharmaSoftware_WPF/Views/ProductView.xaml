@@ -80,7 +80,7 @@
                 <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
                 <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
                           SelectedValue="{Binding Product.SupplierID}" SelectedValuePath="SupplierID"
-                          IsSynchronizedWithCurrentItem="True"
+                          IsSynchronizedWithCurrentItem="True" materialDesign:HintAssist.Hint="Leverancier"
 
                     Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 

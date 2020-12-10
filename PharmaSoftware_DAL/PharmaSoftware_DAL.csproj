@@ -83,6 +83,10 @@
     <Compile Include="Migrations\202012080424487_changeDataTypeBarcode_IntToString.designer.cs">
       <DependentUpon>202012080424487_changeDataTypeBarcode_IntToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012100604453_Pharmacy_ChangePhoneNrToString.cs" />
+    <Compile Include="Migrations\202012100604453_Pharmacy_ChangePhoneNrToString.designer.cs">
+      <DependentUpon>202012100604453_Pharmacy_ChangePhoneNrToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Partials\Baseclass.cs" />
     <Compile Include="Partials\Pharmacy.cs" />
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012080424487_changeDataTypeBarcode_IntToString.resx">
       <DependentUpon>202012080424487_changeDataTypeBarcode_IntToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012100604453_Pharmacy_ChangePhoneNrToString.resx">
+      <DependentUpon>202012100604453_Pharmacy_ChangePhoneNrToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

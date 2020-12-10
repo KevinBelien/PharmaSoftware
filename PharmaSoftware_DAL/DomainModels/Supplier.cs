@@ -20,7 +20,8 @@ namespace PharmaSoftware_DAL
 
         public string Mail { get; set; }
 
-        public int? PhoneNr { get; set; }
+        [Phone(ErrorMessage ="Geef een geldig telefoonnummer op!")]
+        public string PhoneNr { get; set; }
 
         public string Country { get; set; }
 

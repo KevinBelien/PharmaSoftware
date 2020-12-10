@@ -29,7 +29,6 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public bool DisplayControl { get; set; }
 
-
         public int QtyStockIssues { get; set; }
 
         public override string this[string columnName] => throw new NotImplementedException();
@@ -42,7 +41,7 @@ namespace PharmaSoftware_WPF.ViewModels
             this.DeleteProfileCommand = new RelayCommand<IClosable>(this.DeleteProfile);
 
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id).FirstOrDefault();
-            DisplayControl = Pharmacy.District != null ? true : false;
+            DisplayControl = !string.IsNullOrWhiteSpace(Pharmacy.District) ? true : false;
 
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID));
 

@@ -313,6 +313,7 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.DataContext = storageViewModel;
             storageView.Show();
         }
+
         #endregion
     }
 }

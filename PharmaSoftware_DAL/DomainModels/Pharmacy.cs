@@ -15,28 +15,29 @@ namespace PharmaSoftware_DAL
     {
         public int PharmacyID { get; set; }
 
-        [Required(ErrorMessage = "Gebruikersnaam is een verplicht veld")]
+        [Required(ErrorMessage = "Gebruikersnaam is een verplicht veld!")]
         public string Username { get; set; }
 
-        [Required]
+        [Required (ErrorMessage = "Wachtwoord is een verplicht veld!")]
         public string PasswordHash { get; set; }
 
-        [Required(ErrorMessage = "Stad is een verplicht veld")]
+        [Required(ErrorMessage = "Stad is een verplicht veld!")]
         public string City { get; set; }
 
-        [Required(ErrorMessage = "Postcode is een verplicht veld")]
-        [MaxLength(10,ErrorMessage = "Postcode mag maximaal 10 karakters bevatten")]
+        [Required(ErrorMessage = "Postcode is een verplicht veld!")]
+        [MaxLength(10,ErrorMessage = "Postcode mag maximaal 10 karakters bevatten!")]
         public string ZIP { get; set; }
 
-        [Required(ErrorMessage = "Straat is een verplicht veld")]
+        [Required(ErrorMessage = "Straat is een verplicht veld!")]
         public string Street { get; set; }
 
-        [Required(ErrorMessage = "Huisnummer is een verplicht veld")]
-        [MaxLength(10,ErrorMessage = "Postcode mag maximaal 10 karakters bevatten")]
+        [Required(ErrorMessage = "Huisnummer is een verplicht veld!")]
+        [MaxLength(10,ErrorMessage = "Postcode mag maximaal 10 karakters bevatten!")]
         public string HouseNr { get; set; }
 
         [Required(ErrorMessage = "Telefoonnummer moet ingevuld zijn!")]
-        public int PhoneNr { get; set; }
+        [Phone(ErrorMessage = "Dit is geen geldig telefoonnumer!")]
+        public string PhoneNr { get; set; }
 
         public string District { get; set; }
 

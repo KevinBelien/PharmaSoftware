@@ -21,7 +21,6 @@ namespace PharmaSoftware_WPF.ViewModels
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
         private readonly IHashingService passwordHasher = new HashingService();
 
-
         public Pharmacy Pharmacy { get; set; }
 
         public override string this[string columnName] => throw new NotImplementedException();
@@ -31,12 +30,6 @@ namespace PharmaSoftware_WPF.ViewModels
             string errors = ValidateInputFields();
             if (errors == "")
             {
-                /*Pharmacy checkPharm = new Pharmacy
-                {
-                    Username = Username,
-                    PasswordHash = Password
-                };*/
-
                 Pharmacy pharm = _uow.PharmacyRepo.Get(x => x.Username == Pharmacy.Username).FirstOrDefault();
                 if (pharm != null)
                 {
@@ -60,8 +53,6 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 MessageBox.Show(Pharmacy.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-
         }
 
         private string ValidateInputFields()
@@ -92,7 +83,6 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.DataContext = storageViewModel;
             storageView.Show();
         }
-
 
         public void Dispose()
         {

@@ -71,6 +71,6 @@
         </Style>
     </UserControl.Resources>
     <RadioButton Style="{StaticResource MenuButtonStyle}" GroupName="{Binding GroupName, ElementName=this}" 
-                 Command="{Binding SomeCommand, ElementName=this}"
-                 CommandParameter="{Binding SomeCommandParameter, ElementName=this}"></RadioButton>
+                  Command="{Binding SomeCommand, ElementName=this}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"></RadioButton>
 </UserControl>

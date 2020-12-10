@@ -17,11 +17,11 @@ namespace PharmaSoftware_WPF.Converters
         {
             int QtyInStorage;
             Int32.TryParse(value.ToString(), out QtyInStorage);
-            if (QtyInStorage < 5)
+            if (QtyInStorage < 10)
             {
                 return Brushes.Red;
             }
-            else if (QtyInStorage < 10)
+            else if (QtyInStorage < 20)
             {
                 return Brushes.Orange;
             }

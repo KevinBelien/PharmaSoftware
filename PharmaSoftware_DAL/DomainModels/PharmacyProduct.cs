@@ -15,7 +15,7 @@ namespace PharmaSoftware_DAL
     {
         public int PharmacyProductID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vul het aantal dat er in stock is in!")]
         public int QtyInStorage { get; set; }
 
         public int? QtyOrdered { get; set; }

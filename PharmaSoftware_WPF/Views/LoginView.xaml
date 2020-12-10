@@ -12,11 +12,19 @@
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="LoginWindow"
-        Title="Login" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True" Background="Transparent">
-    <Border Height="680" Width="1180" Background="White">
+        Title="Login" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
+    <!--<Window.CacheMode>
+        <BitmapCache RenderAtScale="1" EnableClearType="False" SnapsToDevicePixels="False"/>
+    </Window.CacheMode>
+        <Border Height="680" Width="1180" Background="White">
+        <Border.CacheMode>
+            <BitmapCache RenderAtScale="2" EnableClearType="False" SnapsToDevicePixels="False"/>
+        </Border.CacheMode>
+
         <Border.Effect>
             <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
-        </Border.Effect>
+        </Border.Effect>-->
         <Grid>
 
             <Grid.RowDefinitions>
@@ -78,5 +86,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-    </Border>
+    <!--</Border>-->
 </Window>

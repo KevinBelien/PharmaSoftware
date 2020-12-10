@@ -11,18 +11,15 @@
         TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         x:Name="SupplyWindow"
-        Title="StorageView" Height="700" Width="1470" WindowStartupLocation="CenterScreen" 
-        WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True" Background="Transparent">
+        Title="StorageView" Height="700" Width="1350" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
     <Window.Resources>
         <converters:IntToColorConverter x:Key="IntToColorConverter"/>
         <converters:VisibilityToNullableBooleanConverter x:Key="VisibilityToNullableBooleanConverter"/>
         <converters:IssueToColorConverter x:Key="IssueToColorConverter"/>
     </Window.Resources>
-        <Border Height="680" Width="1450" Background="White">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
-        </Border.Effect>
-        <Grid>
+    <Grid>
             <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition/>
@@ -46,14 +43,21 @@
                         <Label Content="Voorraad" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Vertical" Background="#E1E8EE" Margin="60,0">
 
-                            <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of productcode"
+                    <TextBox materialDesign:HintAssist.Hint="Zoeken op productnaam of productcode" 
+                                     Text="{Binding FilterPharmacyProducts, UpdateSourceTrigger=PropertyChanged}"
                     Margin="20"
                     Padding="5,0,0,0"
                     BorderBrush="#E1E8EE"
                     Background="White"
                     VerticalAlignment="Top"
                     AcceptsReturn="True"
-                    TextWrapping="Wrap"/>
+                    TextWrapping="Wrap">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding FilterDatagridCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
                             <!--<Grid Margin="20,0,20,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -93,8 +97,8 @@
                 </Hyperlink>
             </TextBlock>
 
-                        <DataGrid x:Name="dgdSupply" ItemsSource="{Binding PharmacyProducts}" AutoGenerateColumns="false"
-                      IsReadOnly="True"  Margin="60,10" CanUserSortColumns="True"  CanUserAddRows="False" SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                      <DataGrid x:Name="dgdSupply" ItemsSource="{Binding PharmacyProducts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="false"
+                      IsReadOnly="True"  Margin="60,10" CanUserSortColumns="True"  CanUserAddRows="False" SelectedItem="{Binding SelectedProduct}"
                       Background="White" FontSize="12" RowDetailsVisibilityMode="Collapsed" Style="{StaticResource MaterialDesignDataGrid}">
                             <DataGrid.Resources>
                                 <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
@@ -171,21 +175,23 @@
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"
                                      Width="100"/>
-                                <TextBox Text="{Binding QtyOrdered, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5" Margin=" 40,0"
+                            <TextBox Text="{Binding QtyOrdered, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5" Margin=" 40,0"
                                      materialDesign:HintAssist.Hint="Besteld"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"
                                      Width="100"/>
-                                        <Button  x:Name="BtnEdit" Content="Wijzigen"  Width="110" FontWeight="Bold" Margin="0,20,0,0"
-                                     Command="{Binding DataContext.EditPharmacyProductCommand,RelativeSource= {RelativeSource FindAncestor,
+
+
+                            <Button  x:Name="BtnEdit" Content="Wijzigen"  Width="110" FontWeight="Bold" Margin="0,20,0,0"
+                                     Command="{Binding DataContext.EditPharmacyProductCommand, RelativeSource= {RelativeSource FindAncestor,
                                             AncestorType={x:Type DataGrid}}}"
                                                  CommandParameter="{Binding ElementName=SupplyWindow}"/>
-                                        
-                                        <Button Content="Annuleren" Width="100" Background="White" Foreground="#2E75B2" Margin="30,20,0,0"
-                            FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2"  materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                        Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=ProductWindow}"/>
 
-                                    </StackPanel>
+                            <Button Content="Annuleren" Width="100" Background="White" Foreground="#2E75B2" Margin="30,20,0,0"
+                            FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2"  materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        Command="{Binding DataContext.CancelEditCommand, RelativeSource= {RelativeSource FindAncestor,
+                                            AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding ElementName=SupplyWindow}"/>
+                        </StackPanel>
                                 </DataTemplate>
                             </DataGrid.RowDetailsTemplate>
 
@@ -240,5 +246,4 @@
                     </StackPanel>
 
                 </Grid>
-        </Border>
 </Window>

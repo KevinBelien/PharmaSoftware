@@ -10,9 +10,11 @@ using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +32,8 @@ namespace PharmaSoftware_WPF.ViewModels
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
         public RelayCommand<IClosable> EditPharmacyProductCommand { get; private set; }
         public RelayCommand<IClosable> DeleteProductsCommand { get; private set; }
-
+        public RelayCommand<IClosable> CancelEditCommand { get; private set; }
+        public RelayCommand FilterDatagridCommand { get; private set; }
 
         Pharmacy Pharmacy { get; set; }
 
@@ -40,7 +43,8 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public PharmacyProduct SelectedProduct { get; set; }
         public PharmacyProduct PharmacyProduct { get; set; }
-        public bool IsSelecteed { get; set; }
+        public string FilterPharmacyProducts { get; set; }
+
 
         public StorageViewModel(int id)
         {
@@ -49,19 +53,44 @@ namespace PharmaSoftware_WPF.ViewModels
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
             this.EditPharmacyProductCommand = new RelayCommand<IClosable>(this.EditPharmacyProduct);
             this.DeleteProductsCommand = new RelayCommand<IClosable>(this.DeleteProducts);
+            this.FilterDatagridCommand = new RelayCommand(this.FilterDatagrid);
+            this.CancelEditCommand = new RelayCommand<IClosable>(this.CancelEdit);
+
 
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id,
                 p => p.PharmacyProducts.Select(pp => pp.Product))
                 .FirstOrDefault();
 
             Products = new ObservableCollection<Product>(_uow.ProductRepo.Get());
-            PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID,
+
+            PharmacyProducts = GetPharmacyProducts();
+
+            QtyStockIssues = CountStockIssues(5);
+        }
+
+        public StorageViewModel(int id, string filterText) : this(id)
+        {
+            this.FilterPharmacyProducts = filterText;
+            PharmacyProducts = GetPharmacyProducts();
+
+        }
+
+        private ObservableCollection<PharmacyProduct> GetPharmacyProducts()
+        {
+            if (FilterPharmacyProducts != null)
+            {
+                return new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID,
+                pp => pp.Product.ProductCategory).Where(pp => pp.Product.Code.ToLower().Contains(FilterPharmacyProducts.ToLower())
+                || pp.Product.Name.ToLower().Contains(FilterPharmacyProducts.ToLower())));
+            }
+
+            return new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID,
                 pp => pp.Product.ProductCategory));
 
-            //PharmacyProducts = GetAllProductsFromPharmacy();
-            QtyStockIssues = CountStockIssues(5);
-
-
+        }
+        private void FilterDatagrid()
+        {
+            PharmacyProducts = GetPharmacyProducts();
         }
 
         private int CountStockIssues(int minimumStock)
@@ -77,66 +106,6 @@ namespace PharmaSoftware_WPF.ViewModels
             return issues;
         }
 
-        public override string this[string columnName] => throw new NotImplementedException();
-
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            switch (parameter.ToString())
-            {
-                case "CloseApp": Application.Current.Shutdown(); break;
-                case "RowDetailChanged":; break;
-
-            }
-        }
-
-        private void ShowProductWindow(int id)
-        {
-            ProductView productView = new ProductView();
-            ProductViewModel productViewModel = new ProductViewModel(id);
-            productView.DataContext = productViewModel;
-            productView.Show();
-        }
-
-        private void ShowProfileWindow(int id)
-        {
-            ProfileView profileView = new ProfileView();
-            ProfileViewModel profileViewModel = new ProfileViewModel(id);
-            profileView.DataContext = profileViewModel;
-            profileView.Show();
-        }
-
-        public void Dispose()
-        {
-            _uow?.Dispose();
-        }
-
-
-        #region Commands
-        private void Logout(IClosable window)
-        {
-            if (window != null)
-            {
-                Authenticator.LogOut();
-                window.Close();
-            }
-        }
-
-        private void ShowProfileView(IClosable window)
-        {
-            if (window != null)
-            {
-                if (Authenticator.isLoggedIn)
-                {
-                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
-                    window.Close();
-                }
-            }
-        }
         private void EditPharmacyProduct(IClosable window)
         {
             if (window != null)
@@ -146,7 +115,7 @@ namespace PharmaSoftware_WPF.ViewModels
                     bool productEdited = EditProduct();
                     if (productEdited)
                     {
-                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID, "");
                         window.Close();
                     }
 
@@ -161,6 +130,12 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 if (SelectedProduct.IsValid())
                 {
+                    if (SelectedProduct.QtyOrdered != 0)
+                    {
+                        SelectedProduct.DateOfOrder = DateTime.Now;
+
+                    }
+
                     _uow.PharmacyProductRepo.Edit(SelectedProduct);
                     int ok = _uow.Save();
                     if (ok > 0)
@@ -193,7 +168,7 @@ namespace PharmaSoftware_WPF.ViewModels
                     bool productDeleted = DeleteProducts();
                     if (productDeleted)
                     {
-                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID, "");
                         window.Close();
                     }
 
@@ -219,7 +194,7 @@ namespace PharmaSoftware_WPF.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show($"Er is iets misgelopen tijdens het verwijderen!","Foutmelding",MessageBoxButton.OK,MessageBoxImage.Error);
+                        MessageBox.Show($"Er is iets misgelopen tijdens het verwijderen!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
                     }
                 }
@@ -229,6 +204,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 MessageBox.Show($"Selecteer eerst een product!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+
             int ok = _uow.Save();
             if (ok == 0)
             {
@@ -238,10 +214,26 @@ namespace PharmaSoftware_WPF.ViewModels
             return true;
         }
 
-        private void ShowStorageWindow(int id)
+        #region Commands
+        private void ShowProductWindow(int id)
+        {
+            ProductView productView = new ProductView();
+            ProductViewModel productViewModel = new ProductViewModel(id);
+            productView.DataContext = productViewModel;
+            productView.Show();
+        }
+
+        private void ShowProfileWindow(int id)
+        {
+            ProfileView profileView = new ProfileView();
+            ProfileViewModel profileViewModel = new ProfileViewModel(id);
+            profileView.DataContext = profileViewModel;
+            profileView.Show();
+        }
+        private void ShowStorageWindow(int id, string filterText)
         {
             StorageView storageView = new StorageView();
-            StorageViewModel storageViewModel = new StorageViewModel(id);
+            StorageViewModel storageViewModel = new StorageViewModel(id, filterText);
             storageView.DataContext = storageViewModel;
             storageView.Show();
         }
@@ -257,6 +249,58 @@ namespace PharmaSoftware_WPF.ViewModels
             }
         }
 
+
+        private void CancelEdit(IClosable obj)
+        {
+            if (obj != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID, this.FilterPharmacyProducts);
+                    obj.Close();
+                }
+            }
+        }
+
+        private void Logout(IClosable window)
+        {
+            if (window != null)
+            {
+                Authenticator.LogOut();
+                window.Close();
+            }
+        }
+
+        private void ShowProfileView(IClosable window)
+        {
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+        public override string this[string columnName] => throw new NotImplementedException();
+
+        public override bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter.ToString())
+            {
+                case "CloseApp": Application.Current.Shutdown(); break;
+            }
+        }
         #endregion
+
+        public void Dispose()
+        {
+            _uow?.Dispose();
+        }
     }
 }

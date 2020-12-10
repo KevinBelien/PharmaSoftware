@@ -115,7 +115,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\CheckboxConverter.cs" />
     <Compile Include="Converters\IntToColorConverter.cs" />
     <Compile Include="Converters\IssueToColorConverter.cs" />
     <Compile Include="Converters\VisibilityToNullableBooleanConverter.cs" />

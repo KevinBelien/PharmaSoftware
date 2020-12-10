@@ -46,7 +46,6 @@ namespace PharmaSoftware_DAL.Partials
         public bool IsValid()
         {
             return string.IsNullOrWhiteSpace(Error);
-
         }
         /*[NotMapped]
         public string Error

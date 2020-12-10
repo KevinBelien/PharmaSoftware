@@ -12,14 +12,15 @@
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="ProductWindow"
-        Title="Product toevoegen" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True" Background="Transparent">
+        Title="Product toevoegen" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
     <Window.Resources>
         <converters:IssueToColorConverter x:Key="IssueToColorConverter"/>
     </Window.Resources>
-    <Border Height="680" Width="1180" Background="White">
+    <!--<Border Height="680" Width="1180" Background="White">
         <Border.Effect>
             <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
-        </Border.Effect>
+        </Border.Effect>-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -183,5 +184,5 @@
                 </Grid>
             </StackPanel>
         </Grid>
-    </Border>
+    <!--</Border>-->
 </Window>

@@ -11,11 +11,12 @@
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="RegisterWindow"
-        Title="Registreren" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True" Background="Transparent">
-    <Border Height="680" Width="1180" Background="White">
+        Title="Registreren" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
+    <!--<Border Height="680" Width="1180" Background="White">
         <Border.Effect>
             <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
-        </Border.Effect>
+        </Border.Effect>-->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -127,5 +128,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-    </Border>
+    <!--</Border>-->
 </Window>

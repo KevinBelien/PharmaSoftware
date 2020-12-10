@@ -130,10 +130,10 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 if (SelectedProduct.IsValid())
                 {
-                    if (SelectedProduct.QtyOrdered != 0)
+                    PharmacyProduct product = _uow.PharmacyProductRepo.Get(p => p.QtyOrdered == SelectedProduct.QtyOrdered).FirstOrDefault();
+                    if (SelectedProduct.QtyOrdered != 0 && product == null )
                     {
                         SelectedProduct.DateOfOrder = DateTime.Now;
-
                     }
 
                     _uow.PharmacyProductRepo.Edit(SelectedProduct);

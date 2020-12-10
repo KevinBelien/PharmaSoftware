@@ -97,7 +97,7 @@
                 </Hyperlink>
             </TextBlock>
 
-                      <DataGrid x:Name="dgdSupply" ItemsSource="{Binding PharmacyProducts, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="false"
+                      <DataGrid x:Name="dgdSupply" ItemsSource="{Binding PharmacyProducts}" AutoGenerateColumns="false"
                       IsReadOnly="True"  Margin="60,10" CanUserSortColumns="True"  CanUserAddRows="False" SelectedItem="{Binding SelectedProduct}"
                       Background="White" FontSize="12" RowDetailsVisibilityMode="Collapsed" Style="{StaticResource MaterialDesignDataGrid}">
                             <DataGrid.Resources>
@@ -145,7 +145,7 @@
                                             <Ellipse 
                                     Width="10"
                                     Height="10"
-                                    Fill="{Binding QtyInStorage, Converter={StaticResource IntToColorConverter}}" />
+                                    Fill="{Binding QtyInStorage, Converter={StaticResource IntToColorConverter}, Mode=OneTime}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -170,12 +170,12 @@
 
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="70,0,5,10">
-                                <TextBox Text="{Binding QtyInStorage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5"
+                                <TextBox Text="{Binding QtyInStorage, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5"
                                      materialDesign:HintAssist.Hint="In Stock"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"
                                      Width="100"/>
-                            <TextBox Text="{Binding QtyOrdered, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5" Margin=" 40,0"
+                            <TextBox Text="{Binding QtyOrdered, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5" Margin=" 40,0"
                                      materialDesign:HintAssist.Hint="Besteld"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"

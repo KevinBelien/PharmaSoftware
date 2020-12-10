@@ -45,10 +45,10 @@ namespace PharmaSoftware_DAL
         public ICollection<PharmacyProduct> PharmacyProducts { get; set; }
 
         [InverseProperty("PharmacyBuy")]
-        public virtual ICollection<OrderIntern> InternBought { get; set; }
+        public ICollection<OrderIntern> InternBought { get; set; }
 
         [InverseProperty("PharmacySell")]
-        public virtual ICollection<OrderIntern> InternSold { get; set; }
+        public ICollection<OrderIntern> InternSold { get; set; }
 
     }
 }

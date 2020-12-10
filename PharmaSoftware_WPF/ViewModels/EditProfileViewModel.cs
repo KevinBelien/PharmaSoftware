@@ -23,6 +23,7 @@ namespace PharmaSoftware_WPF.ViewModels
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
         public RelayCommand<IClosable> EditProfileCommand { get; private set; }
+        public RelayCommand<IClosable> CancelCommand { get; private set; }
 
         public Pharmacy Pharmacy { get; set; }
         public ObservableCollection<PharmacyProduct> PharmacyProducts { get; set; }
@@ -46,6 +47,7 @@ namespace PharmaSoftware_WPF.ViewModels
             this.LogoutCommand = new RelayCommand<IClosable>(this.Logout);
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
             this.EditProfileCommand = new RelayCommand<IClosable>(this.EditProfile);
+            this.CancelCommand = new RelayCommand<IClosable>(this.Cancel);
 
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id).FirstOrDefault();
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID));
@@ -159,6 +161,14 @@ namespace PharmaSoftware_WPF.ViewModels
             }
         }
 
+        private void Cancel(IClosable window)
+        {
+            if (window != null)
+            {
+                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+            }
+        }
         #endregion
     }
 }

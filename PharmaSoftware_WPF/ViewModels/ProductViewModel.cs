@@ -33,6 +33,7 @@ namespace PharmaSoftware_WPF.ViewModels
         public bool CmbIsEnabled { get; set; }
 
         public ObservableCollection<PharmacyProduct> PharmacyProducts { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
         public ObservableCollection<Supplier> Suppliers { get; set; }
         public ObservableCollection<ProductPreparation> Preparations { get; set; }
         public ObservableCollection<ProductCategory> Categories { get; set; }
@@ -43,12 +44,41 @@ namespace PharmaSoftware_WPF.ViewModels
         public PharmacyProduct PharmacyProduct { get; set; }
 
 
-        public string QtyInStorage { get; set; }
-        public string QtyOrdered { get; set; }
+        public string ValidInStorage { get; set; }
+        public string ValidOrdered { get; set; }
+        public string ValidPrice { get; set; }
+        public string ValidCost { get; set; }
+
+
         public int QtyStockIssues { get; set; }
 
 
-        public override string this[string columnName] => throw new NotImplementedException();
+        public override string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "ValidInStorage" && !int.TryParse(ValidInStorage, out int stock))
+                {
+                    return "\"Aantal in stock\" moet een numerieke waarde hebben!";
+                }
+                if (columnName == "ValidOrdered" && !string.IsNullOrWhiteSpace(ValidInStorage))
+                {
+                    if (!int.TryParse(ValidInStorage, out int ordered))
+                    {
+                        return "\"Aantal besteld\" moet een numerieke waarde hebben!";
+                    }
+                }
+                if (columnName == "ValidPrice" && !decimal.TryParse(ValidPrice, out decimal price))
+                {
+                    return "Prijs moet een numerieke waarde zijn!";
+                }
+                if (columnName == "ValidCost" && !decimal.TryParse(ValidCost, out decimal cost))
+                {
+                    return "Kostprijs moet een nummerieke waarde zijn!";
+                }
+                return "";
+            }
+        }
 
         public ProductViewModel(int id)
         {
@@ -59,28 +89,37 @@ namespace PharmaSoftware_WPF.ViewModels
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
             this.AddProductCommand = new RelayCommand<IClosable>(this.AddProduct);
 
-            Product = new Product();
-
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id,
                 p => p.PharmacyProducts.Select(pp => pp.Product))
                 .FirstOrDefault();
 
+            PharmacyProduct = new PharmacyProduct()
+            {
+                PharmacyID = Pharmacy.PharmacyID,
+                DateOfOrder = DateTime.Now,
+                Product = new Product()
+            };
+
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID, pp => pp.Product));
+            Products = new ObservableCollection<Product>(_uow.ProductRepo.Get());
             Suppliers = new ObservableCollection<Supplier>(_uow.SupplierRepo.Get().OrderBy(s => s.Name));
             Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get().OrderBy(c => c.Name));
             Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get()
                 .OrderBy(p => p.Name == "Overige").ThenBy(p => p.Name));
 
-            QtyStockIssues = CountStockIssues(5);
+            QtyStockIssues = CountStockIssues(10);
         }
         private int CountStockIssues(int minimumStock)
         {
             int issues = 0;
             foreach (PharmacyProduct product in PharmacyProducts)
             {
-                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
+                if (product.QtyInStorage <= minimumStock)
                 {
-                    issues++;
+                    if (product.QtyOrdered < 20 || product.QtyOrdered == null)
+                    {
+                        issues++;
+                    }
                 }
             }
             return issues;
@@ -103,116 +142,99 @@ namespace PharmaSoftware_WPF.ViewModels
             }
         }
 
-        private bool AddProductToPharmacy()
+        private void FillingPharmacyProduct(PharmacyProduct pharmacyProduct)
         {
-            //checks whether the product failed when it doesn't exist yet
-            bool succesProduct = true;
-            //return value
-            bool succesProductToPharmacy = false;
-
-            string errorsProduct = ValidateInputFieldsProduct(SelectedCategory, SelectedSubcategory, Product.SupplierID);
-            if (string.IsNullOrWhiteSpace(errorsProduct))
+            pharmacyProduct.Product.ProductCategory = SelectedCategory;
+            pharmacyProduct.Product.ProductSubcategory = SelectedSubcategory;
+            pharmacyProduct.DateOfOrder = DateTime.Now;
+            pharmacyProduct.Product.Price = decimal.Parse(ValidPrice);
+            pharmacyProduct.Product.Cost = decimal.Parse(ValidCost);
+            pharmacyProduct.QtyInStorage = int.Parse(ValidInStorage);
+            if (!string.IsNullOrWhiteSpace(ValidOrdered))
             {
-                Product.ProductCategory = SelectedCategory;
-                Product.ProductSubcategory = SelectedSubcategory;
+                pharmacyProduct.QtyOrdered = int.Parse(ValidOrdered);
+            }
+        }
 
-                Product KnownProduct = _uow.ProductRepo.Get(p => p.Code == Product.Code).FirstOrDefault();
-                if (KnownProduct == null)
+        private bool AddProduct()
+        {
+            string productError = ValidateInputFieldsProduct(SelectedCategory, SelectedSubcategory, PharmacyProduct.Product.SupplierID);
+            if (string.IsNullOrWhiteSpace(productError))
+            {
+                if (PharmacyProduct.Product.IsValid() && PharmacyProduct.IsValid())
                 {
-                    succesProduct = AddNewProduct(Product);
-                    KnownProduct = new Product() { ProductID = Product.ProductID };
-                }
-
-                //Checking if this product already exists and add it if not
-                if (succesProduct)
-                {
-                    string errorsPharmacyProduct = ValidateInputFieldsPharmacyProduct(QtyInStorage, QtyOrdered);
-
-                    if (string.IsNullOrWhiteSpace(errorsPharmacyProduct))
+                    if (! IsNumericValid())
                     {
-                        PharmacyProduct = new PharmacyProduct()
+                        MessageBox.Show(Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+
+                    FillingPharmacyProduct(PharmacyProduct);
+
+                    if (!Products.Contains(PharmacyProduct.Product))
+                    {
+                        int okProduct = AddNewProduct(PharmacyProduct.Product);
+                        if (okProduct == 0)
                         {
-                            PharmacyID = Pharmacy.PharmacyID,
-                            ProductID = KnownProduct.ProductID,
-                            DateOfOrder = DateTime.Now,
-                            QtyOrdered = int.Parse(this.QtyOrdered),
-                            QtyInStorage = int.Parse(this.QtyInStorage)
-                        };
-                        if (!PharmacyProducts.Contains(PharmacyProduct))
+                            MessageBox.Show("Het product is niet toegevoegd!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return false;
+                        }
+                    }
+
+                    Product KnownProduct = _uow.ProductRepo.Get(p => p.Code == PharmacyProduct.Product.Code).FirstOrDefault();
+                    PharmacyProduct.ProductID = KnownProduct.ProductID;
+
+                    if (!PharmacyProducts.Contains(PharmacyProduct))
+                    {
+                        int okPharmacyProduct = AddNewPharmacyProduct(PharmacyProduct);
+
+                        if (okPharmacyProduct > 0)
                         {
-                            if (PharmacyProduct.IsValid())
-                            {
-                                _uow.PharmacyProductRepo.Add(PharmacyProduct);
-                                int ok = _uow.Save();
-                                if (ok > 0)
-                                {
-                                    succesProductToPharmacy = true;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Er is iets misgegaan bij het toevoegen van het product aan de lijst!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show(PharmacyProduct.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
+                            return true;
                         }
                         else
                         {
-                            MessageBox.Show($"Product met code {Product.Code} bestaat al in uw apotheek!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                            MessageBox.Show("Er is iets misgelopen bij de toevoeging van het product aan de stock", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return false;
                         }
                     }
                     else
                     {
-                        MessageBox.Show(errorsPharmacyProduct, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("Dit product zit al in uw stock!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
                     }
                 }
                 else
                 {
-                    if (Product.Error != "")
+                    if (PharmacyProduct.Product.Error != "")
                     {
-                        MessageBox.Show(Product.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(PharmacyProduct.Product.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Er is iets misgegaan bij het toevoegen van het product!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(PharmacyProduct.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
+                    return false;
                 }
             }
             else
             {
-                MessageBox.Show(errorsProduct, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(productError, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
             }
-            return succesProductToPharmacy;
+
         }
 
-        private string ValidateInputFieldsPharmacyProduct(string qtyInStorage, string qtyOrdered)
+        private int AddNewProduct(Product product)
         {
-            if (!int.TryParse(qtyInStorage, out int validQtyInStorage))
-            {
-                return "\"Aantal in stock\" moet een numerieke waarde hebben!";
-            }
-            if (!int.TryParse(qtyOrdered, out int validQtyOrdered))
-            {
-                return "\"Aantal besteld\" moet een numerieke waarde hebben!";
-            }
-            return "";
-        }
-
-        private bool AddNewProduct(Product product)
-        {
-            if (product.IsValid())
-            {
                 _uow.ProductRepo.Add(product);
-                int ok = _uow.Save();
-                if (ok > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
+                return _uow.Save();
+        }
+
+        private int AddNewPharmacyProduct(PharmacyProduct product)
+        {
+            _uow.PharmacyProductRepo.Add(product);
+            return _uow.Save();
         }
 
         private string ValidateInputFieldsProduct(ProductCategory selectedCategory, ProductSubcategory selectedSubcategory,
@@ -249,7 +271,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 case "ShowSubcategories": ShowSubcategories(SelectedCategory); break;
             }
         }
-      
+
         private void Logout(IClosable window)
         {
             if (window != null)
@@ -277,7 +299,7 @@ namespace PharmaSoftware_WPF.ViewModels
             {
                 if (Authenticator.isLoggedIn)
                 {
-                    if (AddProductToPharmacy())
+                    if (AddProduct())
                     {
                         ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
                         window.Close();

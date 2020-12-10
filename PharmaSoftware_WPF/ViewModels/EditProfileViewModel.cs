@@ -52,7 +52,7 @@ namespace PharmaSoftware_WPF.ViewModels
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id).FirstOrDefault();
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID));
 
-            QtyStockIssues = CountStockIssues(5);
+            QtyStockIssues = CountStockIssues(10);
         }
 
         private int CountStockIssues(int minimumStock)
@@ -60,9 +60,12 @@ namespace PharmaSoftware_WPF.ViewModels
             int issues = 0;
             foreach (PharmacyProduct product in PharmacyProducts)
             {
-                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
+                if (product.QtyInStorage <= minimumStock)
                 {
-                    issues++;
+                    if (product.QtyOrdered < 20 || product.QtyOrdered == null)
+                    {
+                        issues++;
+                    }
                 }
             }
             return issues;

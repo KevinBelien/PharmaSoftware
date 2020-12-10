@@ -8,6 +8,7 @@ using PharmaSoftware_WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,34 +16,38 @@ using System.Windows;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
-    public class ProfileViewModel: BaseViewModel, IDisposable
+    public class EditProfileViewModel : BaseViewModel, IDisposable, INotifyPropertyChanged
     {
         private readonly IUnitOfWork _uow = new UnitOfWork(new PharmaSoftwareEntities());
 
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
-        public RelayCommand<IClosable> ShowEditProfileViewCommand { get; private set; }
-        public RelayCommand<IClosable> DeleteProfileCommand { get; private set; }
+        public RelayCommand<IClosable> EditProfileCommand { get; private set; }
 
         public Pharmacy Pharmacy { get; set; }
         public ObservableCollection<PharmacyProduct> PharmacyProducts { get; set; }
 
-        public bool DisplayControl { get; set; }
+        //public string ConvertPhone { get; set; }
+        private string _convertPhone;
 
+        public string ConvertPhone
+        {
+            get { return this._convertPhone; }
+            set { _convertPhone = value;
+                NotifyPropertyChanged(ConvertPhone);
+            }
+        }
         public int QtyStockIssues { get; set; }
 
         public override string this[string columnName] => throw new NotImplementedException();
 
-        public ProfileViewModel(int id)
+        public EditProfileViewModel(int id)
         {
             this.LogoutCommand = new RelayCommand<IClosable>(this.Logout);
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
-            this.ShowEditProfileViewCommand = new RelayCommand<IClosable>(this.ShowEditProfileView);
-            this.DeleteProfileCommand = new RelayCommand<IClosable>(this.DeleteProfile);
+            this.EditProfileCommand = new RelayCommand<IClosable>(this.EditProfile);
 
             Pharmacy = _uow.PharmacyRepo.Get(p => p.PharmacyID == id).FirstOrDefault();
-            DisplayControl = !string.IsNullOrWhiteSpace(Pharmacy.District) ? true : false;
-
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID));
 
             QtyStockIssues = CountStockIssues(5);
@@ -60,23 +65,38 @@ namespace PharmaSoftware_WPF.ViewModels
             }
             return issues;
         }
-
-        private bool DeleteAccount()
+        private ObservableCollection<Pharmacy> GetAllPharmacies()
         {
-            if (MessageBox.Show("Bent u zeker dat u dit account wil verwijderen.", "Waarschuwing",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                 _uow.PharmacyRepo.Delete(Pharmacy);
-                int ok = _uow.Save();
-                if (ok > 0)
-                {
-                    return true;
-                }
-                return false;
-            }
-            return false;
+            return new ObservableCollection<Pharmacy>(_uow.PharmacyRepo.Get());
         }
 
+        private bool EditAccount()
+        {
+                if (!GetAllPharmacies().Where(p => p.PharmacyID != Authenticator.CurrentUser.PharmacyID).Contains(Pharmacy))
+                {
+                    if (Pharmacy.IsValid())
+                    {
+                        _uow.PharmacyRepo.Edit(Pharmacy);
+                        int ok = _uow.Save();
+                        if (ok > 0)
+                        {
+                            Authenticator.CurrentUser = Pharmacy;
+                            return true;
+                        }
+                        MessageBox.Show("Er is iets misgegaan bij het wijzigen van je profiel!", "Foutmelding",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Pharmacy.Error, "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+                }
+                MessageBox.Show("Deze gebruikersnaam bestaat al!", "Foutmelding", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+
+        }
 
         public void Dispose()
         {
@@ -84,6 +104,7 @@ namespace PharmaSoftware_WPF.ViewModels
         }
 
         #region Commands
+
         public override bool CanExecute(object parameter)
         {
             return true;
@@ -126,37 +147,18 @@ namespace PharmaSoftware_WPF.ViewModels
             profileView.Show();
         }
 
-        private void ShowEditProfileView(IClosable window)
+        private void EditProfile(IClosable window)
         {
             if (window != null)
             {
-                if (Authenticator.isLoggedIn)
+                if (EditAccount())
                 {
-                    ShowEditProfileWindow(Authenticator.CurrentUser.PharmacyID);
+                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
                     window.Close();
                 }
             }
         }
 
-        private void ShowEditProfileWindow(int id)
-        {
-            EditProfileView editProfileView = new EditProfileView();
-            EditProfileViewModel editProfileViewModel = new EditProfileViewModel(id);
-            editProfileView.DataContext = editProfileViewModel;
-            editProfileView.Show();
-        }
-
-        private void DeleteProfile(IClosable window)
-        {
-            if (window != null)
-            {
-                if (DeleteAccount())
-                {
-                    Logout(window);
-                    window.Close();
-                }
-            }
-        }
         #endregion
     }
 }

@@ -38,14 +38,11 @@ namespace PharmaSoftware_WPF.ViewModels
 
         private void AddPharmacy()
         {
-            int validPhoneNr = 0;
             string errors = "";
 
-            errors += ValidateInputFields(ConvertPhone,CopyPassword, ref validPhoneNr);
+            errors += ValidateInputFields(CopyPassword);
             if (string.IsNullOrWhiteSpace(errors))
             {
-                Pharmacy.PhoneNr = validPhoneNr;
-
                 if (!GetAllPharmacies().Contains(Pharmacy))
                 {
                     if (Pharmacy.IsValid())
@@ -55,7 +52,6 @@ namespace PharmaSoftware_WPF.ViewModels
                         if (ok > 0)
                         {
                             Authenticator.CurrentUser = Pharmacy;
-
                         }
                         else
                         {
@@ -89,12 +85,9 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.Show();
         }
 
-        public string ValidateInputFields(string phoneNr, string confirmPassword, ref int validPhoneNr)
+        public string ValidateInputFields(string confirmPassword)
         {
-            if (!int.TryParse(phoneNr, out validPhoneNr))
-            {
-                return "Telefoonnummer moet een numerieke waarde hebben!";
-            }
+
             if (string.IsNullOrWhiteSpace(Pharmacy.PasswordHash))
             {
                 return "Wachtwoord is niet ingevuld!";

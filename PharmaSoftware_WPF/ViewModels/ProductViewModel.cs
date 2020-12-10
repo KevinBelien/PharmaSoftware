@@ -23,7 +23,6 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand<IClosable> CancelCommand { get; private set; }
-        public RelayCommand<IClosable> ShowStorageViewCommand { get; set; }
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
         public RelayCommand<IClosable> AddProductCommand { get; private set; }
 
@@ -43,7 +42,7 @@ namespace PharmaSoftware_WPF.ViewModels
         public Product Product { get; set; }
         public PharmacyProduct PharmacyProduct { get; set; }
 
-        //public Product KnownProduct { get; set; }
+
         public string QtyInStorage { get; set; }
         public string QtyOrdered { get; set; }
         public int QtyStockIssues { get; set; }
@@ -57,7 +56,6 @@ namespace PharmaSoftware_WPF.ViewModels
 
             this.LogoutCommand = new RelayCommand<IClosable>(this.Logout);
             this.CancelCommand = new RelayCommand<IClosable>(this.ShowStorageView);
-            this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
             this.ShowProfileViewCommand = new RelayCommand<IClosable>(this.ShowProfileView);
             this.AddProductCommand = new RelayCommand<IClosable>(this.AddProduct);
 
@@ -75,25 +73,21 @@ namespace PharmaSoftware_WPF.ViewModels
 
             QtyStockIssues = CountStockIssues(5);
         }
-
+        private int CountStockIssues(int minimumStock)
+        {
+            int issues = 0;
+            foreach (PharmacyProduct product in PharmacyProducts)
+            {
+                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
+                {
+                    issues++;
+                }
+            }
+            return issues;
+        }
         public void Dispose()
         {
             _uow?.Dispose();
-        }
-
-        #region Commands
-        public override bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public override void Execute(object parameter)
-        {
-            switch (parameter.ToString())
-            {
-                case "CloseApp": Application.Current.Shutdown(); break;
-                case "ShowSubcategories": ShowSubcategories(SelectedCategory); break;
-            }
         }
 
         private void ShowSubcategories(ProductCategory productCategory)
@@ -106,55 +100,6 @@ namespace PharmaSoftware_WPF.ViewModels
             else
             {
                 this.CmbIsEnabled = false;
-            }
-        }
-
-        private void Logout(IClosable window)
-        {
-            if (window != null)
-            {
-                Authenticator.LogOut();
-                window.Close();
-            }
-        }
-
-        private void ShowProfileView(IClosable window)
-        {
-            if (window != null)
-            {
-                if (Authenticator.isLoggedIn)
-                {
-                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
-                    window.Close();
-                }
-            }
-        }
-
-        private void ShowStorageView(IClosable window)
-        {
-            if (window != null)
-            {
-                if (Authenticator.isLoggedIn)
-                {
-                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
-                    window.Close();
-                }
-            }
-        }
-
-        private void AddProduct(IClosable window)
-        {
-            if (window != null)
-            {
-                if (Authenticator.isLoggedIn)
-                {
-                    bool productAdded = AddProductToPharmacy();
-                    if (productAdded)
-                    {
-                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
-                        window.Close();
-                    }
-                }
             }
         }
 
@@ -175,7 +120,7 @@ namespace PharmaSoftware_WPF.ViewModels
                 if (KnownProduct == null)
                 {
                     succesProduct = AddNewProduct(Product);
-                    KnownProduct = new Product (){ProductID = Product.ProductID};
+                    KnownProduct = new Product() { ProductID = Product.ProductID };
                 }
 
                 //Checking if this product already exists and add it if not
@@ -290,7 +235,69 @@ namespace PharmaSoftware_WPF.ViewModels
         }
 
 
-        #endregion
+        #region Commands
+        public override bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter.ToString())
+            {
+                case "CloseApp": Application.Current.Shutdown(); break;
+                case "ShowSubcategories": ShowSubcategories(SelectedCategory); break;
+            }
+        }
+      
+        private void Logout(IClosable window)
+        {
+            if (window != null)
+            {
+                Authenticator.LogOut();
+                window.Close();
+            }
+        }
+
+        private void ShowProfileView(IClosable window)
+        {
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowProfileWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+
+        private void AddProduct(IClosable window)
+        {
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    if (AddProductToPharmacy())
+                    {
+                        ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                        window.Close();
+                    }
+                }
+            }
+        }
+
+        private void ShowStorageView(IClosable window)
+        {
+            if (window != null)
+            {
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
+            }
+        }
+
         private void ShowProfileWindow(int id)
         {
             ProfileView profileView = new ProfileView();
@@ -307,17 +314,6 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.Show();
         }
 
-        private int CountStockIssues(int minimumStock)
-        {
-            int issues = 0;
-            foreach (PharmacyProduct product in PharmacyProducts)
-            {
-                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
-                {
-                    issues++;
-                }
-            }
-            return issues;
-        }
+        #endregion
     }
 }

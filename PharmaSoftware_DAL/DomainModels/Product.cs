@@ -16,29 +16,29 @@ namespace PharmaSoftware_DAL
         [Key]
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Code is een verplicht veld")]
+        [Required(ErrorMessage = "Code is een verplicht veld!")]
         public string Code { get; set; }
 
-        [Required(ErrorMessage = "Productnaam is een verplicht veld")]
+        [Required(ErrorMessage = "Productnaam is een verplicht veld!")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Barcode is een verplicht veld")]
         [StringLength(13,MinimumLength = 13,ErrorMessage="Barcode is ongeldig!")]
         public string Barcode { get; set; }
 
-        [Required(ErrorMessage = "Inhoud is een verplicht veld")]
+        [Required(ErrorMessage = "Inhoud is een verplicht veld!")]
         [MaxLength(20)]
         public string Content { get; set; }
 
-        [Required(ErrorMessage = "Productprijs is een verplicht veld")]
+        [Required(ErrorMessage = "Productprijs is een verplicht veld!")]
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Kostprijs is een verplicht veld")]
+        [Required(ErrorMessage = "Kostprijs is een verplicht veld!")]
         [Column(TypeName = "money")]
         public decimal Cost { get; set; }
 
-        [Required(ErrorMessage = "Merk is een verplicht veld")]
+        [Required(ErrorMessage = "Merk is een verplicht veld!")]
         [MaxLength(150, ErrorMessage = "Merk kan maar 150 karakters bevatten!")]
         public string Brand { get; set; }
 
@@ -46,18 +46,18 @@ namespace PharmaSoftware_DAL
         public ICollection<PharmacyProduct> PharmacyProducts { get; set; }
         public ICollection<OrderIntern> OrdersIntern { get; set; }
 
-        [Required(ErrorMessage = "Selecteer een categorie")]
+        [Required(ErrorMessage = "Selecteer een categorie!")]
         public int ProductCategoryID { get; set; }
         public ProductCategory ProductCategory { get; set; }
 
-        [Required(ErrorMessage = "Selecteer een subcategorie")]
+        [Required(ErrorMessage = "Selecteer een subcategorie!")]
         public int ProductSubcategoryID { get; set; }
         public ProductSubcategory ProductSubcategory { get; set; }
 
         public int? ProductPreparationID { get; set; }
         public ProductPreparation ProductPreparation { get; set; }
 
-        [Required(ErrorMessage = "Selecteer een leverancier")]
+        [Required(ErrorMessage = "Selecteer een leverancier!")]
         public int SupplierID { get; set; }
         public Supplier Supplier { get; set; }
     }

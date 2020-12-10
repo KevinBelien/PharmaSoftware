@@ -4,9 +4,155 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PharmaSoftware_WPF.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:customcontrols="clr-namespace:PharmaSoftware_WPF.customcontrols"
+        xmlns:converters="clr-namespace:PharmaSoftware_WPF.Converters" 
         mc:Ignorable="d"
-        Title="ProfileView" Height="450" Width="800">
+        TextElement.FontFamily="{StaticResource Nunito}"
+        TextElement.FontSize="13"
+        x:Name="ProfileWindow"
+        Title="StorageView" Height="700" Width="1200" WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
+    <Window.Resources>
+        <converters:IssueToColorConverter x:Key="IssueToColorConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style x:Key="LabelStyle" TargetType="TextBox">
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="240"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Vertical" Margin="0,53,0,0" >
+            <TextBlock Text="pharma." Foreground="#2E75B2"  
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="30" FontFamily="Arial Rounded MT"/>
+            <customcontrols:MenuButton isSelected="True"  Icon="Home" Text="Voorraad" GroupName="Menu" Margin="0,53,0,0" Padding="35,0,35,0" SomeCommand="{Binding ShowStorageViewCommand}"/>
+            <customcontrols:MenuButton isSelected="False" Icon="SwapHorizontal" GroupName="Menu" Text="Transfers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+            <customcontrols:MenuButton isSelected="False" Icon="Dolly" GroupName="Menu" Text="Leveranciers" Margin="0,0,0,0" Padding="35,0,35,0"/>
+        </StackPanel>
+
+        <Border Grid.Column="1" HorizontalAlignment="Left" BorderBrush="#E1E8EE" BorderThickness=".7"/>
+
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
+            <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
+            <Label Content="Profiel" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Text="Gebruikersnaam:" Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,30,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.Username}" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,30,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+
+                <TextBox Text="Telefoonnr:" Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.PhoneNr}" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+
+                <TextBox Text="Gemeente:" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.City}" Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+
+                <TextBox Text="Postcode:" Grid.Column="0" Grid.Row="3" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.ZIP}" Grid.Column="1" Grid.Row="3" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+
+                <TextBox Text="Deelgemeente:"  HorizontalContentAlignment="Left" Grid.Column="0" Grid.Row="4"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"
+                       Visibility="{Binding DisplayControl, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <TextBox Text="{Binding Pharmacy.District}" HorizontalContentAlignment="Left" Style="{StaticResource LabelStyle}"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Grid.Column="1" Grid.Row="4"
+                       Visibility="{Binding DisplayControl, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                <TextBox Text="Straat:" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.Street}" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+
+
+                <TextBox Text="Huisnr:" Grid.Column="0" Grid.Row="6" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="225,0,0,16" Style="{StaticResource LabelStyle}"/>
+                <TextBox Text="{Binding Pharmacy.HouseNr}" Grid.Column="1" Grid.Row="6" HorizontalContentAlignment="Left"
+                       FontSize="16" Foreground="#656363" Margin="25,0,0,16" FontWeight="Bold" Style="{StaticResource LabelStyle}"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="0,20">
+                <Button Content="Gegevens wijzigen" Width="180" HorizontalAlignment="Left" Margin="210,0,0,0"
+                    Background="#2E75B2" Foreground="White" Height="40"
+                    BorderBrush="#2E75B2" Style="{StaticResource MaterialDesignRaisedButton}"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                    Command="{Binding ShowEditProfileViewCommand}" CommandParameter="{Binding ElementName=ProfileWindow}"/>
+
+                <Button x:Name="btnDeleteProduct" Width="170" Content="Account verwijderen" Height="40"
+                        Command="{Binding DeleteProfileCommand}" CommandParameter="{Binding ElementName=ProfileWindow}"
+                        HorizontalAlignment="Left" Margin="20,20" Background="White" Foreground="Red" 
+                        BorderThickness="2" BorderBrush="Red"  materialDesign:ShadowAssist.ShadowDepth="Depth0"/>
+            </StackPanel>
+        </StackPanel>
+
+
+        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="52"/>
+                    <RowDefinition Height="548"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="0" Width="220">
+                    <materialDesign:PopupBox PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Margin="0" >
+                        <materialDesign:PopupBox.ToggleContent>
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Account" Width="28" Height="28" Foreground="#2E75B2"/>
+                                    <TextBlock Text="Account" VerticalAlignment="Center" Margin="10,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:PopupBox.ToggleContent>
+                        <StackPanel Width="150" Background="White">
+                            <Button x:Name="BtnAccount" Content="Mijn Account" Command="{Binding ShowProfileViewCommand}" CommandParameter="{Binding ElementName=ProfileWindow}"/>
+                            <Border HorizontalAlignment="Stretch" BorderBrush="LightGray" BorderThickness=".5"/>
+                            <Button x:Name="btnLogOut" Content="Afmelden" FontWeight="Bold" Foreground="Red" Command="{Binding LogoutCommand}" CommandParameter="{Binding ElementName=ProfileWindow}"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                                HorizontalAlignment="Right"
+                                Margin="80,0,0,0"
+                                VerticalAlignment="Center"
+                                ToolTip="Sluiten"
+                                Command="{Binding}"
+                                CommandParameter="CloseApp">
+                        <materialDesign:PackIcon Kind="WindowClose" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
+                    <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
+                    <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

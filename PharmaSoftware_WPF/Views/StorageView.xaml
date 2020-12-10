@@ -187,7 +187,7 @@
                                             AncestorType={x:Type DataGrid}}}"
                                                  CommandParameter="{Binding ElementName=SupplyWindow}"/>
 
-                            <Button Content="Annuleren" Width="100" Background="White" Foreground="#2E75B2" Margin="30,20,0,0"
+                            <Button Content="Annuleren" Width="100" Background="White" Foreground="black" Margin="30,20,0,0"
                             FontWeight="Bold" BorderThickness="2" BorderBrush="#2E75B2"  materialDesign:ShadowAssist.ShadowDepth="Depth0"
                         Command="{Binding DataContext.CancelEditCommand, RelativeSource= {RelativeSource FindAncestor,
                                             AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding ElementName=SupplyWindow}"/>

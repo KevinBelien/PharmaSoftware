@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PharmaSoftware_WPF.Views
 {
     /// <summary>
-    /// Interaction logic for ProfileView.xaml
+    /// Interaction logic for EditProfileView.xaml
     /// </summary>
-    public partial class ProfileView : Window, IClosable
+    public partial class EditProfileView : Window, IClosable
     {
-        public ProfileView()
+        public EditProfileView()
         {
             InitializeComponent();
         }

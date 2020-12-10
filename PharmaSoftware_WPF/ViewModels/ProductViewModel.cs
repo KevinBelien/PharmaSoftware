@@ -23,7 +23,7 @@ namespace PharmaSoftware_WPF.ViewModels
 
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand<IClosable> CancelCommand { get; private set; }
-        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; set; }
         public RelayCommand<IClosable> ShowProfileViewCommand { get; private set; }
         public RelayCommand<IClosable> AddProductCommand { get; private set; }
 
@@ -38,17 +38,15 @@ namespace PharmaSoftware_WPF.ViewModels
         public ObservableCollection<ProductPreparation> Preparations { get; set; }
         public ObservableCollection<ProductCategory> Categories { get; set; }
         public ObservableCollection<ProductSubcategory> Subcategories { get; set; }
-        public ObservableCollection<Product> ProductsOfUser { get; set; }
 
 
         public Product Product { get; set; }
         public PharmacyProduct PharmacyProduct { get; set; }
 
         //public Product KnownProduct { get; set; }
-        public string Barcode { get; set; }
         public string QtyInStorage { get; set; }
         public string QtyOrdered { get; set; }
-
+        public int QtyStockIssues { get; set; }
 
 
         public override string this[string columnName] => throw new NotImplementedException();
@@ -70,9 +68,12 @@ namespace PharmaSoftware_WPF.ViewModels
                 .FirstOrDefault();
 
             PharmacyProducts = new ObservableCollection<PharmacyProduct>(_uow.PharmacyProductRepo.Get(pp => pp.PharmacyID == Pharmacy.PharmacyID, pp => pp.Product));
-            Suppliers = new ObservableCollection<Supplier>(_uow.SupplierRepo.Get());
-            Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get());
-            Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get());
+            Suppliers = new ObservableCollection<Supplier>(_uow.SupplierRepo.Get().OrderBy(s => s.Name));
+            Categories = new ObservableCollection<ProductCategory>(_uow.ProductCategoryRepo.Get().OrderBy(c => c.Name));
+            Preparations = new ObservableCollection<ProductPreparation>(_uow.ProductPreparationRepo.Get()
+                .OrderBy(p => p.Name == "Overige").ThenBy(p => p.Name));
+
+            QtyStockIssues = CountStockIssues(5);
         }
 
         public void Dispose()
@@ -159,16 +160,14 @@ namespace PharmaSoftware_WPF.ViewModels
 
         private bool AddProductToPharmacy()
         {
-            int validBarcode = 0;
             //checks whether the product failed when it doesn't exist yet
             bool succesProduct = true;
             //return value
             bool succesProductToPharmacy = false;
 
-            string errorsProduct = ValidateInputFieldsProduct(SelectedCategory, SelectedSubcategory, Product.SupplierID, Barcode, ref validBarcode);
+            string errorsProduct = ValidateInputFieldsProduct(SelectedCategory, SelectedSubcategory, Product.SupplierID);
             if (string.IsNullOrWhiteSpace(errorsProduct))
             {
-                Product.Barcode = validBarcode;
                 Product.ProductCategory = SelectedCategory;
                 Product.ProductSubcategory = SelectedSubcategory;
 
@@ -272,7 +271,7 @@ namespace PharmaSoftware_WPF.ViewModels
         }
 
         private string ValidateInputFieldsProduct(ProductCategory selectedCategory, ProductSubcategory selectedSubcategory,
-            int? supplierID, string barcode, ref int validBarcode)
+            int? supplierID)
         {
             if (selectedCategory == null)
             {
@@ -286,10 +285,6 @@ namespace PharmaSoftware_WPF.ViewModels
             if (supplierID == 0)
             {
                 return "Selecteer een leverancier!";
-            }
-            if (!int.TryParse(barcode, out validBarcode))
-            {
-                return "Barcode moet een numerieke waarde hebben!";
             }
             return "";
         }
@@ -312,6 +307,17 @@ namespace PharmaSoftware_WPF.ViewModels
             storageView.Show();
         }
 
-
+        private int CountStockIssues(int minimumStock)
+        {
+            int issues = 0;
+            foreach (PharmacyProduct product in PharmacyProducts)
+            {
+                if ((product.QtyInStorage + product.QtyOrdered) <= minimumStock)
+                {
+                    issues++;
+                }
+            }
+            return issues;
+        }
     }
 }

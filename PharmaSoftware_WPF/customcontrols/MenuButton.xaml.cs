@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using PharmaSoftware_WPF.State.ManageWIndows;
 using PharmaSoftware_WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -91,19 +92,14 @@ namespace PharmaSoftware_WPF.customcontrols
         public static readonly DependencyProperty SomeCommandProperty =
             DependencyProperty.Register("SomeCommand", typeof(ICommand), typeof(MenuButton));
 
+        //public string SomeCommandParameter
+        //{
+        //    get { return (string)GetValue(SomeCommandParameterProperty); }
+        //    set { SetValue(SomeCommandParameterProperty, value); }
+        //}
 
-
-        public string SomeCommandParameter
-        {
-            get { return (string)GetValue(SomeCommandParameterProperty); }
-            set { SetValue(SomeCommandParameterProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SomeCommandParameter.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SomeCommandParameterProperty =
-            DependencyProperty.Register("SomeCommandParameter", typeof(string), typeof(MenuButton));
-
-
-
+        //// Using a DependencyProperty as the backing store for SomeCommandParameter.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty SomeCommandParameterProperty =
+        //    DependencyProperty.Register("SomeCommandParameter", typeof(string), typeof(MenuButton));
     }
 }

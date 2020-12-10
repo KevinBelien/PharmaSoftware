@@ -23,7 +23,8 @@ namespace PharmaSoftware_DAL
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Barcode is een verplicht veld")]
-        public int Barcode { get; set; }
+        [StringLength(13,MinimumLength = 13,ErrorMessage="Barcode is ongeldig!")]
+        public string Barcode { get; set; }
 
         [Required(ErrorMessage = "Inhoud is een verplicht veld")]
         [MaxLength(20)]
@@ -38,7 +39,7 @@ namespace PharmaSoftware_DAL
         public decimal Cost { get; set; }
 
         [Required(ErrorMessage = "Merk is een verplicht veld")]
-        [MaxLength(150)]
+        [MaxLength(150, ErrorMessage = "Merk kan maar 150 karakters bevatten!")]
         public string Brand { get; set; }
 
         //Navigation properties

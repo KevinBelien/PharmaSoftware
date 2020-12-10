@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace PharmaSoftware_DAL
 {
     [Table("ProductCategory")]
-    public class ProductCategory: Baseclass
+    public partial class ProductCategory: Baseclass
     {
         public int ProductCategoryID { get; set; }
 

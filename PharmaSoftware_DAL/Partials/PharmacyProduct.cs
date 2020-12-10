@@ -1,6 +1,10 @@
-﻿using System;
+﻿using PharmaSoftware_DAL.Partials;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +12,29 @@ namespace PharmaSoftware_DAL
 {
     public partial class PharmacyProduct
     {
+        [NotMapped]
+        public bool IsSelected { get; set; }
+
+        /*[NotMapped]
+        private string _qtyNewOrdered;
+
+        [NotMapped]
+        public string QtyNewOrdered
+        {
+            get { return _qtyNewOrdered; }
+            set
+            {
+                if (value == null)
+                {
+                     _qtyNewOrdered = QtyOrdered.ToString();
+                }
+                else
+                {
+                    _qtyNewOrdered = value;
+                }
+            } 
+        }*/
+
         public override bool Equals(object obj)
         {
             return obj is PharmacyProduct product &&
@@ -22,5 +49,6 @@ namespace PharmaSoftware_DAL
             hashCode = hashCode * -1521134295 + ProductID.GetHashCode();
             return hashCode;
         }
+
     }
 }

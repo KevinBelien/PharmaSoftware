@@ -1,4 +1,6 @@
-﻿using PharmaSoftware_WPF.State.Authenticators;
+﻿using GalaSoft.MvvmLight.Command;
+using PharmaSoftware_WPF.State.Authenticators;
+using PharmaSoftware_WPF.State.ManageWIndows;
 using PharmaSoftware_WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -8,23 +10,30 @@ using System.Threading.Tasks;
 
 namespace PharmaSoftware_WPF.ViewModels
 {
-    public class MenuButtonViewModel : BaseViewModel
+    public class MenuButtonViewModel
     {
-        public override string this[string columnName] => throw new NotImplementedException();
+        public RelayCommand<IClosable> ShowStorageViewCommand { get; private set; }
 
-        public override bool CanExecute(object parameter)
+        public MenuButtonViewModel()
         {
-            return true;
+            this.ShowStorageViewCommand = new RelayCommand<IClosable>(this.ShowStorageView);
+
         }
-
-        public override void Execute(object parameter)
+        
+        private void ShowStorageView(IClosable window)
         {
-            switch (parameter.ToString())
+            if (window != null)
             {
-                case "ShowStorageView": ShowStorageView(Authenticator.CurrentUser.PharmacyID); break;
+
+                if (Authenticator.isLoggedIn)
+                {
+                    ShowStorageWindow(Authenticator.CurrentUser.PharmacyID);
+                    window.Close();
+                }
             }
         }
-        private void ShowStorageView(int id)
+
+        private void ShowStorageWindow(int id)
         {
             StorageView storageView = new StorageView();
             StorageViewModel storageViewModel = new StorageViewModel(id);

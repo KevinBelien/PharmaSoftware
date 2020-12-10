@@ -8,68 +8,83 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:PharmaSoftware_WPF.customcontrols"
-        TextElement.FontFamily="Nunito"
+        TextElement.FontFamily="{StaticResource Nunito}"
         TextElement.FontSize="13"
         WindowStartupLocation="CenterScreen"
         x:Name="LoginWindow"
-        Title="Login" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True">
+        Title="Login" Height="700" Width="1200" WindowStyle="None" ResizeMode="CanResize" AllowsTransparency="True"
+        BorderBrush="#E1E8EE" BorderThickness="3">
+    <!--<Window.CacheMode>
+        <BitmapCache RenderAtScale="1" EnableClearType="False" SnapsToDevicePixels="False"/>
+    </Window.CacheMode>
+        <Border Height="680" Width="1180" Background="White">
+        <Border.CacheMode>
+            <BitmapCache RenderAtScale="2" EnableClearType="False" SnapsToDevicePixels="False"/>
+        </Border.CacheMode>
 
-    <Grid>
+        <Border.Effect>
+            <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
+        </Border.Effect>-->
+        <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="250"/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Aanmelden" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,80,0,0" HorizontalAlignment="Center"/>
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Vertical" Width="300" Margin="0,10,0,0">
-            <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
-                <materialDesign:PackIcon DockPanel.Dock="Left" 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Aanmelden" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,80,0,0" HorizontalAlignment="Center"/>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Vertical" Width="300" Margin="0,10,0,0">
+                <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
                                              Kind="Person" 
                                              Margin="0,0,15,-2" 
                                              VerticalAlignment="Bottom" 
                                              Foreground="#656363">
-                    <materialDesign:PackIcon.LayoutTransform>
-                        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
-                    </materialDesign:PackIcon.LayoutTransform>
-                </materialDesign:PackIcon>
-                <TextBox x:Name="txtUsername" Text="{Binding Pharmacy.Username}" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-            </DockPanel>
-            
-            <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
-                <materialDesign:PackIcon DockPanel.Dock="Left" 
+                        <materialDesign:PackIcon.LayoutTransform>
+                            <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
+                        </materialDesign:PackIcon.LayoutTransform>
+                    </materialDesign:PackIcon>
+                    <TextBox x:Name="txtUsername" Text="{Binding Pharmacy.Username}" materialDesign:HintAssist.Hint="Gebruikersnaam" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                </DockPanel>
+
+                <DockPanel  Margin="0,0,0,15" HorizontalAlignment="Stretch">
+                    <materialDesign:PackIcon DockPanel.Dock="Left" 
                                              Kind="Lock" 
                                              Margin="0,0,15,-2" 
                                              VerticalAlignment="Bottom" 
                                              Foreground="#656363">
-                    <materialDesign:PackIcon.LayoutTransform>
-                        <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
-                    </materialDesign:PackIcon.LayoutTransform>
-                </materialDesign:PackIcon>
-                <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
-            </DockPanel>
+                        <materialDesign:PackIcon.LayoutTransform>
+                            <ScaleTransform CenterX=".5" CenterY=".5" ScaleX="1.75" ScaleY="1.75"/>
+                        </materialDesign:PackIcon.LayoutTransform>
+                    </materialDesign:PackIcon>
+                    <customcontrols:BindablePasswordBox x:Name="pbPassword" Password="{Binding Pharmacy.PasswordHash}" Padding="0,0,0,0" materialDesign:HintAssist.Hint="Wachtwoord"/>
+                </DockPanel>
 
-            <Button x:Name="btnLogin" Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=LoginWindow}" Content="Inloggen" Background="#2E75B2" FontWeight="Bold" Foreground="White" BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button x:Name="btnLogin" Command="{Binding ShowStorageViewCommand}" CommandParameter="{Binding ElementName=LoginWindow}"
+                    Content="Inloggen" Background="#2E75B2" FontWeight="Bold" Foreground="White"
+                    BorderBrush="#2E75B2" Margin="0,15,0,0" Style="{StaticResource MaterialDesignRaisedButton}"
+                     materialDesign:ShadowAssist.ShadowDepth="Depth0"/>
 
-            <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
+                <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Hyperlink Command="{Binding ShowRegisterViewCommand}"  CommandParameter="{Binding ElementName=LoginWindow}">
                     <TextBlock Text="Registreren"/>
                 </Hyperlink>
             </TextBlock>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE" Grid.RowSpan="2">
-            <Button Style="{StaticResource MaterialDesignIconButton}"
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Vertical" Background="#E1E8EE" Grid.RowSpan="2">
+                <Button Style="{StaticResource MaterialDesignIconButton}"
                                 HorizontalAlignment="Right"
                                 Margin="80,0,0,0"
                                 VerticalAlignment="Center"
                                 ToolTip="Sluiten"
                                 Command="{Binding}"
                                 CommandParameter="CloseApp">
-                <materialDesign:PackIcon Kind="WindowClose" />
-            </Button>
-        </StackPanel>
-    </Grid>
+                    <materialDesign:PackIcon Kind="WindowClose" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    <!--</Border>-->
 </Window>

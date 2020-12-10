@@ -15,26 +15,6 @@ namespace PharmaSoftware_DAL
         [NotMapped]
         public bool IsSelected { get; set; }
 
-        /*[NotMapped]
-        private string _qtyNewOrdered;
-
-        [NotMapped]
-        public string QtyNewOrdered
-        {
-            get { return _qtyNewOrdered; }
-            set
-            {
-                if (value == null)
-                {
-                     _qtyNewOrdered = QtyOrdered.ToString();
-                }
-                else
-                {
-                    _qtyNewOrdered = value;
-                }
-            } 
-        }*/
-
         public override bool Equals(object obj)
         {
             return obj is PharmacyProduct product &&

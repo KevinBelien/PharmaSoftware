@@ -62,10 +62,10 @@
                     </Grid.RowDefinitions>
                     <Label Content="Productinformatie" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
                     <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Padding="0" Margin="0,0,0,8"/>
-                    <TextBox Text="{Binding Product.Code}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding PharmacyProduct.Product.Code}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
                     <Label Content="Naam:" VerticalAlignment="Center" Grid.Row="2" Padding="0" Margin="0,0,0,8"/>
-                    <TextBox Text="{Binding Product.Name}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding PharmacyProduct.Product.Name}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
 
                     <Label Content="Categorie:" VerticalAlignment="Center" Grid.Row="3" Padding="0" Margin="0,0,0,8"/>
                     <ComboBox x:Name="cmbCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
@@ -85,36 +85,36 @@
 
 
                     <Label Content="Merk:" VerticalAlignment="Center" Grid.Row="5" Padding="0" Margin="0,0,0,8"/>
-                    <TextBox Text="{Binding Product.Brand}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding PharmacyProduct.Product.Brand}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,0,0,8"/>
 
                     <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
                     <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
-                          SelectedValue="{Binding Product.SupplierID}" SelectedValuePath="SupplierID"
+                          SelectedValue="{Binding PharmacyProduct.Product.SupplierID}" SelectedValuePath="SupplierID"
                           IsSynchronizedWithCurrentItem="True"
 
                     Grid.Row="6" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,0,0,8"/>
 
                     <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                    <TextBox Text="{Binding Product.Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                    <TextBox Text="{Binding PharmacyProduct.Product.Barcode}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
                     <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                    <TextBox Text="{Binding Product.Content}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
+                <TextBox Text="{Binding PharmacyProduct.Product.Content}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8"/>
 
                     <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                     <DockPanel Grid.Column="3" Grid.Row="3">
                         <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                        <TextBox Text="{Binding Product.Price}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
+                    <TextBox Text="{Binding ValidPrice, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
                     </DockPanel>
 
                     <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
                     <DockPanel Grid.Column="3" Grid.Row="4">
                         <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                        <TextBox Text="{Binding Product.Cost}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
+                    <TextBox Text="{Binding ValidCost, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,0,0,8" DockPanel.Dock="Right"/>
                     </DockPanel>
 
                     <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                    <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name" 
-                          SelectedValue="{Binding Product.ProductPreparationID}" SelectedValuePath="ProductPreparationID"  Grid.Row="5" Grid.Column="3"  Style="{StaticResource MaterialDesignComboBox}" Width="192"  Margin="0,0,0,8"/>
+                <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name" 
+                          SelectedValue="{Binding PharmacyProduct.Product.ProductPreparationID}" SelectedValuePath="ProductPreparationID"  Grid.Row="5" Grid.Column="3"  Style="{StaticResource MaterialDesignComboBox}" Width="192"  Margin="0,0,0,8"/>
                 </Grid>
 
 
@@ -122,11 +122,11 @@
                     <Label Content="Voorraad" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="In stock:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                        <TextBox Text="{Binding QtyInStorage}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="10,0,0,8"/>
+                    <TextBox Text="{Binding ValidInStorage, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="11,0,0,8"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Besteld:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                        <TextBox Text="{Binding QtyOrdered}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="11,0,0,8"/>
+                    <TextBox Text="{Binding ValidOrdered, UpdateSourceTrigger=PropertyChanged, TargetNullValue=0}" Style="{StaticResource MaterialDesignTextBox}" Width="80" Margin="11,0,0,8"/>
                     </StackPanel>
 
 
@@ -178,7 +178,7 @@
                     <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
                         <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
                         <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
-                        <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}}"
+                        <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}, UpdateSourceTrigger=PropertyChanged}"
                                FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTextBlock}"/>
                     </StackPanel>
                 </Grid>

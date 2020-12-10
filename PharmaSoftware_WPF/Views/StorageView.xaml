@@ -124,20 +124,11 @@
                             ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
                             EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}" IsReadOnly="False">
                         </DataGridCheckBoxColumn>
-                        <!--<DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsSelected, NotifyOnTargetUpdated=True,
-                                        NotifyOnSourceUpdated=True,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
-                                </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
+
                         <DataGridTextColumn Binding="{Binding Product.Code}" Header="Code" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                                 <DataGridTextColumn Binding="{Binding Product.Name}" Header="Naam" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                                 <DataGridTextColumn Binding="{Binding Product.ProductCategory}" Header="Categorie" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
-                                <DataGridTextColumn Binding="{Binding DateOfOrder, StringFormat=d}"   Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn Binding="{Binding DateOfOrder, StringFormat='{}{0:dd/MM/yyyy}'}"   Header="Laatste order" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                                 <DataGridTextColumn Binding="{Binding Product.Cost, StringFormat=C, ConverterCulture='nl-BE'}"  Header="Prijs" EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                                 <DataGridTemplateColumn Header="Stock" >
                                     <DataGridTemplateColumn.CellTemplate>
@@ -175,7 +166,7 @@
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"
                                      Width="100"/>
-                            <TextBox Text="{Binding QtyOrdered, UpdateSourceTrigger=PropertyChanged}" FontSize="13.5" Margin=" 40,0"
+                            <TextBox Text="{Binding QtyOrdered, UpdateSourceTrigger=PropertyChanged, TargetNullValue='0'}" FontSize="13.5" Margin=" 40,0"
                                      materialDesign:HintAssist.Hint="Besteld"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      materialDesign:HintAssist.Foreground="#2E75B2"
@@ -238,7 +229,8 @@
                             <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20,0,0,0">
                                 <TextBlock Text="OVERZICHT" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="#2E75B2"/>
                                 <TextBlock Text="Voorraad problemen" VerticalAlignment="Center" Margin="0,10,0,10" FontSize="16" FontWeight="Bold" Foreground="#656363"/>
-                                <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding QtyStockIssues}" Foreground="{Binding QtyStockIssues, Converter={StaticResource IssueToColorConverter}}"
+                                           FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
 
 

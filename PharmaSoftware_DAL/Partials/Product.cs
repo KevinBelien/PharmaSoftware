@@ -8,6 +8,7 @@ namespace PharmaSoftware_DAL
 {
     public partial class Product
     {
+
         public override bool Equals(object obj)
         {
             return obj is Product product &&
@@ -18,5 +19,7 @@ namespace PharmaSoftware_DAL
         {
             return -434485196 + EqualityComparer<string>.Default.GetHashCode(Code);
         }
+
+
     }
 }

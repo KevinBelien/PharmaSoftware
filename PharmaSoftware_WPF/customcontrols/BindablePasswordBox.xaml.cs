@@ -41,22 +41,6 @@ namespace PharmaSoftware_WPF.customcontrols
             DependencyProperty.Register("Password", typeof(string), typeof(BindablePasswordBox),
                 new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     PasswordPropertyChanged, null, false, UpdateSourceTrigger.PropertyChanged));
-
-    /*    public static SecureString GetEncryptedPassword(DependencyObject obj)
-        {
-            return (SecureString)obj.GetValue(EncryptedPasswordProperty);
-        }
-
-        public static void SetEncryptedPassword(DependencyObject obj, SecureString value)
-        {
-            obj.SetValue(EncryptedPasswordProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for EncryptedPassword.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty EncryptedPasswordProperty =
-            DependencyProperty.Register("EncryptedPassword", typeof(SecureString), typeof(BindablePasswordBox),
-                                new PropertyMetadata(new SecureString()));*/
-
         private string encryptString(string pass)
         {
             return service.EncryptString(pass);
@@ -81,17 +65,8 @@ namespace PharmaSoftware_WPF.customcontrols
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-           /* //Cast the 'sender' to a PasswordBox
-            PasswordBox pBox = sender as PasswordBox;
-
-            //Set this "EncryptedPassword" dependency property to the "SecurePassword"
-            //of the PasswordBox.
-            SetEncryptedPassword(pBox, pBox.SecurePassword);*/
-
             _isPasswordChanging = true;
             Password = encryptString(passwordBox.Password);
-            //Password = passwordBox.Password;
-
             _isPasswordChanging = false;
 
         }

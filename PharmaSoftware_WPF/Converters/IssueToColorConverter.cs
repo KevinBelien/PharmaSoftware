@@ -17,7 +17,7 @@ namespace PharmaSoftware_WPF.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             int QtyStockIssues;
-            Int32.TryParse(value.ToString(), out QtyStockIssues);
+            int.TryParse(value.ToString(), out QtyStockIssues);
             if (QtyStockIssues > 0)
             {
                 return Brushes.Red;

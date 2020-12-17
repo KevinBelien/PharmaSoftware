@@ -134,7 +134,8 @@ namespace PharmaSoftware_WPF.ViewModels
             if (SelectedCategory != null)
             {
                 this.CmbIsEnabled = true;
-                Subcategories = new ObservableCollection<ProductSubcategory>(_uow.ProductSubcategoryRepo.Get(sc => sc.ProductCategoryID == productCategory.ProductCategoryID));
+                Subcategories = new ObservableCollection<ProductSubcategory>
+                    (_uow.ProductSubcategoryRepo.Get(sc => sc.ProductCategoryID == productCategory.ProductCategoryID));
             }
             else
             {

@@ -13,33 +13,6 @@ namespace PharmaSoftware_DAL.Partials
 {
     public abstract class Baseclass : IDataErrorInfo, INotifyPropertyChanged
     {
-        /*[NotMapped]
-        public virtual string this[string columnName]
-        {
-            get
-            {
-                var validationResults = new List<ValidationResult>();
-
-                var property = GetType().GetProperty(columnName);
-                if (property != null)
-
-                {
-                    var validationContext = new ValidationContext(this)
-                    {
-                        MemberName = columnName
-                    };
-
-                    var isVal = Validator.TryValidateProperty(property.GetValue(this), validationContext, validationResults);
-                    if (isVal)
-                    {
-                        return null;
-                    }
-
-                    return validationResults.First().ErrorMessage;
-                }
-                return "";
-            }
-        }*/
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -47,26 +20,7 @@ namespace PharmaSoftware_DAL.Partials
         {
             return string.IsNullOrWhiteSpace(Error);
         }
-        /*[NotMapped]
-        public string Error
-        {
-            get
-            {
-                string foutmeldingen = "";
 
-                foreach (var item in this.GetType().GetProperties(BindingFlags.DeclaredOnly)) //reflection 
-                {
-
-                    string fout = this[item.Name];
-                    if (!string.IsNullOrWhiteSpace(fout))
-                    {
-                        foutmeldingen += fout + Environment.NewLine;
-                    }
-
-                }
-                return foutmeldingen;
-            }
-        }*/
         [NotMapped]
         public virtual string this[string columnName]
         {

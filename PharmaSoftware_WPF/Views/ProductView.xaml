@@ -17,11 +17,7 @@
     <Window.Resources>
         <converters:IssueToColorConverter x:Key="IssueToColorConverter"/>
     </Window.Resources>
-    <!--<Border Height="680" Width="1180" Background="White">
-        <Border.Effect>
-            <DropShadowEffect Color="Black" Direction="-75"  ShadowDepth="2" Opacity=".5" BlurRadius="15" />
-        </Border.Effect>-->
-        <Grid>
+    <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition/>
@@ -42,7 +38,7 @@
             <StackPanel Grid.Column="1" Orientation="Vertical">
                 <customcontrols:MenuButton isSelected="True" Icon="HomeAdd" HorizontalAlignment="Right" Text="Apothekersgroep" GroupName="Menu" Margin="0,2,0,0" Padding="35,0,35,0"/>
                 <Border HorizontalAlignment="Stretch" Margin="0,0,0,0"  BorderBrush="#E1E8EE" BorderThickness=".7"/>
-                <Label Content="Product toevoegen" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,20,0,10" HorizontalAlignment="Center"/>
+                <Label Content="Product toevoegen" FontSize="30" FontWeight="Bold" Foreground="#656363" Margin="0,15,0,10" HorizontalAlignment="Center"/>
 
                 <Grid Margin="40,0,40,0">
                     <Grid.ColumnDefinitions>
@@ -60,17 +56,17 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Label Content="Productinformatie" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,8,0,15"/>
+                    <Label Content="Productinformatie" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,15"/>
                     
-                    <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Padding="0" Margin="0,0,0,8"/>
-                    <TextBox Text="{Binding PharmacyProduct.Product.Code, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,8,0,15"/>
-                <Label Content="Naam:" VerticalAlignment="Center" Grid.Row="2" Padding="0" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding PharmacyProduct.Product.Name, ValidatesOnDataErrors=True}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,8,0,15"/>
+                    <Label Content="Code:" VerticalAlignment="Center" Grid.Row="1" Padding="0" Margin="0,0,0,6"/>
+                    <TextBox Text="{Binding PharmacyProduct.Product.Code, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,6,0,15"/>
+                <Label Content="Naam:" VerticalAlignment="Center" Grid.Row="2" Padding="0" Margin="0,0,0,6"/>
+                <TextBox Text="{Binding PharmacyProduct.Product.Name, ValidatesOnDataErrors=True}" Grid.Row="2" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,6,0,15"/>
 
-                    <Label Content="Categorie:" VerticalAlignment="Center" Grid.Row="3" Padding="0" Margin="0,0,0,8"/>
+                    <Label Content="Categorie:" VerticalAlignment="Center" Grid.Row="3" Padding="0" Margin="0,0,0,6"/>
                 <ComboBox x:Name="cmbCategories" ItemsSource="{Binding Categories}" DisplayMemberPath="Name"
                           SelectedItem="{Binding SelectedCategory}"
-                          Grid.Row="3" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,8,0,15">
+                          Grid.Row="3" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,6,0,15">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding}" CommandParameter="ShowSubcategories"/>
@@ -78,55 +74,55 @@
                         </i:Interaction.Triggers>
                     </ComboBox>
 
-                    <Label Content="Subcategorie:" VerticalAlignment="Center" Grid.Row="4" Padding="0" Margin="0,0,0,8"/>
+                    <Label Content="Subcategorie:" VerticalAlignment="Center" Grid.Row="4" Padding="0" Margin="0,0,0,6"/>
                     <ComboBox x:Name="cmbSubcategory" ItemsSource="{Binding Subcategories}" DisplayMemberPath="Name" IsEnabled="{Binding CmbIsEnabled}"
                           SelectedItem="{Binding SelectedSubcategory}" 
-                          Grid.Row="4" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,8,0,15"/>
+                          Grid.Row="4" Grid.Column="1"  Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,6,0,15"/>
 
 
-                    <Label Content="Merk:" VerticalAlignment="Center" Grid.Row="5" Padding="0" Margin="0,0,0,8"/>
-                <TextBox Text="{Binding PharmacyProduct.Product.Brand, ValidatesOnDataErrors=True}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,8,0,15"/>
+                    <Label Content="Merk:" VerticalAlignment="Center" Grid.Row="5" Padding="0" Margin="0,0,0,6"/>
+                <TextBox Text="{Binding PharmacyProduct.Product.Brand, ValidatesOnDataErrors=True}" Grid.Row="5" Grid.Column="1"  Style="{StaticResource MaterialDesignTextBox}" Width="200"  Margin="0,6,0,15"/>
 
-                    <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,8"/>
+                    <Label Content="Leverancier:" VerticalAlignment="Center" Grid.Row="6" Padding="0" Margin="0,0,0,6"/>
                     <ComboBox ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name"
                           SelectedValue="{Binding PharmacyProduct.Product.SupplierID}" SelectedValuePath="SupplierID"
                           IsSynchronizedWithCurrentItem="True" Grid.Row="6" Grid.Column="1" 
-                              Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,8,0,15"/>
+                              Style="{StaticResource MaterialDesignComboBox}" Width="200"  Margin="0,6,0,15"/>
 
-                    <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <TextBox Text="{Binding PharmacyProduct.Product.Barcode, ValidatesOnDataErrors=True}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,8,0,15"/>
+                    <Label Content="Barcode:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="2" Padding="0" Margin="40,0,0,6"/>
+                <TextBox Text="{Binding PharmacyProduct.Product.Barcode, ValidatesOnDataErrors=True}" Grid.Column="3" Grid.Row="1" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,6,0,15"/>
 
-                    <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
-                <TextBox Text="{Binding PharmacyProduct.Product.Content, ValidatesOnDataErrors=True}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,8,0,15"/>
+                    <Label Content="Inhoud:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="0" Margin="40,0,0,6"/>
+                <TextBox Text="{Binding PharmacyProduct.Product.Content, ValidatesOnDataErrors=True}" Grid.Column="3" Grid.Row="2" Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,6,0,15"/>
 
-                    <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <Label Content="Prijs:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Padding="0" Margin="40,0,0,6"/>
                     <DockPanel Grid.Column="3" Grid.Row="3">
-                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                    <TextBox Text="{Binding ValidPrice, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,8,0,15" DockPanel.Dock="Right"/>
+                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,4,0,0" FontSize="16"/>
+                    <TextBox Text="{Binding ValidPrice, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,6,0,15" DockPanel.Dock="Right"/>
                     </DockPanel>
 
-                    <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <Label Content="Kostprijs:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="2" Padding="0" Margin="40,0,0,6"/>
                     <DockPanel Grid.Column="3" Grid.Row="4">
-                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,0,0,0" FontSize="16"/>
-                    <TextBox Text="{Binding ValidCost, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,8,0,15" DockPanel.Dock="Right"/>
+                        <Label Content="€" DockPanel.Dock="Left" Margin="-25,4,0,0" FontSize="16"/>
+                    <TextBox Text="{Binding ValidCost, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Style="{StaticResource MaterialDesignTextBox}" Width="200" Margin="0,6,0,15" DockPanel.Dock="Right"/>
                     </DockPanel>
 
-                    <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,8"/>
+                    <Label Content="Vorm:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="2" Padding="0" Margin="40,0,0,6"/>
                 <ComboBox ItemsSource="{Binding Preparations}" DisplayMemberPath="Name" 
                           SelectedValue="{Binding PharmacyProduct.Product.ProductPreparationID}" SelectedValuePath="ProductPreparationID"  Grid.Row="5" Grid.Column="3"
-                          Style="{StaticResource MaterialDesignComboBox}" Width="192"  Margin="0,8,0,15"/>
+                          Style="{StaticResource MaterialDesignComboBox}" Width="192"  Margin="0,6,0,15"/>
                 </Grid>
 
 
-                <StackPanel Orientation="Vertical" Margin="40,40,40,0">
+                <StackPanel Orientation="Vertical" Margin="40,20,40,0">
                     <Label Content="Voorraad" Grid.Column="0" Grid.Row="0"  Grid.ColumnSpan="4" FontSize="16" FontWeight="Bold" Foreground="#656363" Margin="0,0,0,10"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <Label Content="In stock:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                    <TextBox Text="{Binding ValidInStorage, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignTextBox}" Width="120" Margin="11,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,6">
+                        <Label Content="In stock:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,6"/>
+                    <TextBox Text="{Binding ValidInStorage, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignTextBox}" Width="120" Margin="11,0,0,6"/>
                     </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <Label Content="Besteld:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,8"/>
-                    <TextBox Text="{Binding ValidOrdered, UpdateSourceTrigger=PropertyChanged, TargetNullValue=0}" Style="{StaticResource MaterialDesignTextBox}" Width="120" Margin="11,0,0,8"/>
+                <StackPanel Orientation="Horizontal" Margin="0,6">
+                        <Label Content="Besteld:" VerticalAlignment="Center" Padding="0" Margin="0,0,10,6"/>
+                    <TextBox Text="{Binding ValidOrdered, UpdateSourceTrigger=PropertyChanged, TargetNullValue=0}" Style="{StaticResource MaterialDesignTextBox}" Width="120" Margin="11,0,0,6"/>
                     </StackPanel>
 
 

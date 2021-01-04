@@ -22,7 +22,7 @@ Terwijl er geen stock issue is. Dit komt doordat het artikel reeds besteld is, m
 2. Een product is equal als het product van type product is + de code identiek is.
 
 3. Dit leg ik uit a.d.v een voorbeeld:
-  Als een apotheker al een product in stock heeft met code "129" en een andere apotheker een product wilt toevoegen met dezelfde code.
+  Als een apotheker al een product in stock heeft met een 13-cijferige code "129..." en een andere apotheker een product wilt toevoegen met dezelfde code.
   Dan zal het product worden toegevoegd (in de database) aan de tussenentiteit van die apotheker zonder dat deze nog eens toegevoegd wordt aan de entiteit "product" (in de database).
   Als de code identiek is, maar de naam bijvoorbeeld niet van het product. Dan zal de naam automatisch aangepast worden aan de originele staat voor deze apotheker.
   

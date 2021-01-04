@@ -24,13 +24,14 @@ Terwijl er geen stock issue is. Dit komt doordat het artikel reeds besteld is, m
 3. Dit leg ik uit a.d.v een voorbeeld:
   Als een apotheker al een product in stock heeft met een 13-cijferige code "129..." en een andere apotheker een product wilt toevoegen met dezelfde code.
   Dan zal het product worden toegevoegd (in de database) aan de tussenentiteit van die apotheker zonder dat deze nog eens toegevoegd wordt aan de entiteit "product" (in de database).
+
   Als de code identiek is, maar de naam bijvoorbeeld niet van het product. Dan zal de naam automatisch aangepast worden aan de originele staat voor deze apotheker.
   
 4. Producten die verwijderd worden door een apotheker zullen alleen definitief verwijderd worden (in de entiteit product), als geen enkele apotheker van de groep dit product in stock heeft/besteld heeft.
 
 5. De apotheker moet zijn stock nog altijd manueel controleren doordat dit niet aan andere systemen gelinkt is. Men kan producten verwijderen uit zijn stock en de aantallen in stock + aantallen besteld wijzigen. 
 
-6. Als men een product wilt toevoegen en een subcategorie woilt toewijzen aan dit product, zal men eerst een categorie moeten toewijzen. dan wordt dit veld enabled.
+6. Als men een product wilt toevoegen en een subcategorie wilt toewijzen aan dit product, zal men eerst een categorie moeten toewijzen. dan wordt dit veld enabled.
 
 7. Als het bestelde product geleverd wordt en de stock dus wordt gewijzigd naar meer en het "aantal besteld" naar 0. Dan zal de property "last order" onveranderd blijven. 
 
@@ -47,7 +48,7 @@ Opsomming van opzoekingswerk:
 
 6. Hyperlinks
 
-7. FinAncestor + Ancestortype bij relativesource. De mogelijkheid om binnen een bepaalde parent de binden. (veel gebruikt)
+7. FindAncestor + Ancestortype bij relativesource. De mogelijkheid om binnen een bepaalde parent de binden. (veel gebruikt)
 
 8. Stringformats en converterculture in bindings van view.xaml. (gebruikt datagridColumn: laatste order)
 
